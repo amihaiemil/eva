@@ -1,6 +1,7 @@
 package com.amihaiemil.eva;
 
 /**
+ * Fitness of a solution found by the algorithm.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public interface Fitness extends Comparable<Fitness>{

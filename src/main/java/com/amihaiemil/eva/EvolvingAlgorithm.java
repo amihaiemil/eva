@@ -1,12 +1,10 @@
 package com.amihaiemil.eva;
 
-import com.amihaiemil.eva.abstractions.FitnessEvaluator;
-import com.amihaiemil.eva.abstractions.Solution;
-
+import java.util.List;
 import java.util.Random;
 
 /**
- * Evolving algorithm implementation
+ * Evolving algorithm implementation.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public final class EvolvingAlgorithm {
@@ -23,8 +21,8 @@ public final class EvolvingAlgorithm {
      * Default constructor with default values for population size and mutation probability.
      */
     public EvolvingAlgorithm() {
-        this.populationSize = 100;
-        this.numberOfGenerations = 1000;
+        this.populationSize = 6000;
+        this.numberOfGenerations = 150;
         this.crossoverProbability = random.nextDouble();
         this.mutationProbability = random.nextDouble();
     }
@@ -72,7 +70,45 @@ public final class EvolvingAlgorithm {
             throw new IllegalStateException("An evaluator of solutions must be specified!");
         }
         this.initialPopulation = new Population(solutionsGenerator, populationSize);
-
-        return null;
+        this.evaluateSolutions(initialPopulation.getIndividuals());
+        Population newPopulation;
+        for(int i=0;i<numberOfGenerations;i++) {
+            newPopulation = new Population();
+            for(int j=0;j<populationSize;j++) {
+                Solution child = this.mate(initialPopulation.selectIndividual(), initialPopulation.selectIndividual());
+                child.mutate(mutationProbability);
+                child.setFitness(solutionsEvaluator.calculateFitnessForSolution(child));
+                newPopulation.addIndividual(child);
+            }
+            initialPopulation = newPopulation;
+        }
+        return initialPopulation.bestIndividual();
     }
+
+    /**
+     * Create a child solution based on 2 other solutions, having in regards the crossover probability.
+     * @param mother The "mother" of the created solution.
+     * @param father The "father" of the created solution.
+     * @return A child solution or the best one of the mother and the father, if they "cannot have children".
+     */
+    private Solution mate(Solution mother, Solution father) {
+        if(random.nextDouble() < crossoverProbability) { //parents have an offspring
+            return mother.crossover(father);
+        } else { //no offspring, return best parrent.
+            if(mother.getFitness().compareTo(father.getFitness()) == 1) {
+                return mother;
+            }
+            return father;
+        }
+    }
+
+    private void evaluateSolutions(List<Solution> solutions) {
+        for(int i=0;i<solutions.size();i++) {
+            solutions.get(i).setFitness(solutionsEvaluator.calculateFitnessForSolution(solutions.get(i)));
+            if(solutions.get(i).getFitness() == null) {
+                throw new IllegalStateException("Fitness of the solution should have been set by now!");
+            }
+        }
+    }
+
 }

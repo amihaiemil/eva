@@ -1,23 +1,34 @@
 package com.amihaiemil.eva;
 
-import com.amihaiemil.eva.abstractions.Solution;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
+ * A population of possible solutions.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 final class Population {
     private List<Solution> individuals;
     private Random chance = new Random();
 
+    /**
+     * Create a population of individuals, with a given size.
+     * @param generator The generator of random solutions.
+     * @param size The size of the population.
+     */
     Population(SolutionsGenerator generator, int size) {
         this.individuals = new ArrayList<Solution>();
         for(int i=0;i<size;i++) {
             individuals.add(generator.generateRandomSolution());
         }
+    }
+
+    /**
+     * Create a population with no individuals.
+     */
+    Population() {
+        this.individuals = new ArrayList<Solution>();
     }
 
     /**
@@ -55,5 +66,17 @@ final class Population {
             }
         }
         return best;
+    }
+
+    /**
+     * Add a solution to this population.
+     * @param individual Solution to be added.
+     */
+    void addIndividual(Solution individual) {
+        this.individuals.add(individual);
+    }
+
+    int getSize() {
+        return this.individuals.size();
     }
 }

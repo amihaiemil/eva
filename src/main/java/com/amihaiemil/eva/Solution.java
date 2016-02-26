@@ -1,7 +1,4 @@
-package com.amihaiemil.eva.abstractions;
-
-import com.amihaiemil.eva.Fitness;
-import com.amihaiemil.eva.Representation;
+package com.amihaiemil.eva;
 
 /**
  * Interface to be implemented by a possible solution of the algorithm.
@@ -28,6 +25,14 @@ public abstract class Solution {
     }
 
     /**
+     * Each solution should have a representation.
+     * @return The representation of this solution.
+     */
+    public Representation getRepresentation() { return this.representation;}
+
+    public void setRepresentation(Representation rep) { this.representation = rep;}
+
+    /**
      * Set the fitness of this solution.
      * @param fitness The set fitness of this solution.
      */
@@ -40,4 +45,11 @@ public abstract class Solution {
      * @param pm A random chosen double (0 < pm < 1) that should give the random element in this solution's mutation.
      */
     public abstract void mutate(double pm);
+
+    /**
+     * Crossover this solution with the given partner.
+     * In other words, create a new solution with data taken from both this solution and the partner.
+     * @param partner Another solution.
+     */
+    public abstract Solution crossover(Solution partner);
 }
