@@ -14,7 +14,7 @@ public abstract class Solution {
     /**
      * Representation of this solution.
      */
-    protected Representation representation;
+    private Representation representation;
 
     /**
      * Each solution should have a comparable fitness that makes it better or worse than other solutions.
@@ -52,4 +52,12 @@ public abstract class Solution {
      * @param partner Another solution.
      */
     public abstract Solution crossover(Solution partner);
+
+    /**
+     * A solution is acceptable if its fitness is ok.
+     * @return true if acceptable, false otherwise.
+     */
+    public boolean isAcceptable() {
+        return this.fitness.isOk();
+    }
 }

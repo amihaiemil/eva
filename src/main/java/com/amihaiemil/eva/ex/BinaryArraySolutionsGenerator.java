@@ -9,6 +9,9 @@ import java.util.Random;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public class BinaryArraySolutionsGenerator implements SolutionsGenerator {
+    /**
+     * Size of the representation array.
+     */
     private int size;
     private Random r = new Random();
     public BinaryArraySolutionsGenerator(int size) {

@@ -79,4 +79,5 @@ final class Population {
     int getSize() {
         return this.individuals.size();
     }
+
 }

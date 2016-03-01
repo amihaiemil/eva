@@ -13,7 +13,7 @@ public class IntegersArraySolution extends Solution {
 
     @Override
     public void mutate(double pm) {
-        NumericalRepresentation representation = (NumericalRepresentation) this.representation;
+        NumericalRepresentation representation = (NumericalRepresentation) this.getRepresentation();
 
         for(int i=0;i<representation.getSize();i++) {
             if(r.nextDouble() < pm) {
@@ -21,12 +21,12 @@ public class IntegersArraySolution extends Solution {
             }
         }
 
-        this.representation = representation;
+        this.setRepresentation(representation);
     }
 
     @Override
     public Solution crossover(Solution partner) {
-        NumericalRepresentation representation = (NumericalRepresentation) this.representation;
+        NumericalRepresentation representation = (NumericalRepresentation) this.getRepresentation();
         NumericalRepresentation partnerRepresentation = (NumericalRepresentation) partner.getRepresentation();
 
         Solution offspring = new IntegersArraySolution();

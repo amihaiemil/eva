@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Evolving algorithm implementation.
+ * Simple evolving algorithm implementation.
+ * No threads, no error range or complicated stopping conditions.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public final class EvolvingAlgorithm {
+public final class SimpleEvolvingAlgorithm implements Eva{
     private int populationSize;
     private int numberOfGenerations;
     private double crossoverProbability;
@@ -20,7 +21,7 @@ public final class EvolvingAlgorithm {
     /**
      * Default constructor with default values for population size and mutation probability.
      */
-    public EvolvingAlgorithm() {
+    public SimpleEvolvingAlgorithm() {
         this.populationSize = 6000;
         this.numberOfGenerations = 150;
         this.crossoverProbability = random.nextDouble();
@@ -30,7 +31,7 @@ public final class EvolvingAlgorithm {
     /**
      * Constructor with parameters for population size and number of generations.
      */
-    public EvolvingAlgorithm(int population, int generations) {
+    public SimpleEvolvingAlgorithm(int population, int generations) {
         this.populationSize = population;
         this.numberOfGenerations = generations;
         this.crossoverProbability = random.nextDouble();
@@ -42,7 +43,7 @@ public final class EvolvingAlgorithm {
      * @param generator An object that generates a list of solutions.
      * @return This algorithm.
      */
-    public EvolvingAlgorithm with(SolutionsGenerator generator) {
+    public Eva with(SolutionsGenerator generator) {
         this.solutionsGenerator = generator;
         return this;
     }
@@ -52,17 +53,19 @@ public final class EvolvingAlgorithm {
      * @param evaluator An object that knows to evaluate the fitness of a solution.
      * @return This algorithm.
      */
-    public EvolvingAlgorithm with(FitnessEvaluator evaluator) {
+    public Eva with(FitnessEvaluator evaluator) {
         this.solutionsEvaluator = evaluator;
         return this;
     }
 
     /**
-     * Runs this evolving algorithm.
-     * @return The best solution found (the solution with the best Fitness)
+     * Calculates the solution. Runs until the <b>numberOfGenerations</b> was exceeded or
+     * until it finds a Solution with an acceptable Fitness (iterations might be exceeded
+     * before finding an acceptable solution).
+     * @return The best solution found (the solution with the best ok Fitness).
      * @throws IllegalStateException If no generator of solutions was specified.
      */
-    public Solution run() throws IllegalStateException {
+    public Solution calculate() throws IllegalStateException {
         if(this.solutionsGenerator == null) {
             throw new IllegalStateException("A generator of solutions must be specified!");
         }
@@ -72,17 +75,21 @@ public final class EvolvingAlgorithm {
         this.initialPopulation = new Population(solutionsGenerator, populationSize);
         this.evaluateSolutions(initialPopulation.getIndividuals());
         Population newPopulation;
-        for(int i=0;i<numberOfGenerations;i++) {
-            newPopulation = new Population();
-            for(int j=0;j<populationSize;j++) {
-                Solution child = this.mate(initialPopulation.selectIndividual(), initialPopulation.selectIndividual());
-                child.mutate(mutationProbability);
-                child.setFitness(solutionsEvaluator.calculateFitnessForSolution(child));
-                newPopulation.addIndividual(child);
+        Solution bestSolutionFound;
+        do {
+            for (int i = 0; i < numberOfGenerations; i++) {
+                newPopulation = new Population();
+                for (int j = 0; j < populationSize; j++) {
+                    Solution child = this.mate(initialPopulation.selectIndividual(), initialPopulation.selectIndividual());
+                    child.mutate(mutationProbability);
+                    child.setFitness(solutionsEvaluator.calculateFitnessForSolution(child));
+                    newPopulation.addIndividual(child);
+                }
+                initialPopulation = newPopulation;
             }
-            initialPopulation = newPopulation;
-        }
-        return initialPopulation.bestIndividual();
+            bestSolutionFound = initialPopulation.bestIndividual();
+        } while (!bestSolutionFound.isAcceptable());
+        return bestSolutionFound;
     }
 
     /**
@@ -102,6 +109,10 @@ public final class EvolvingAlgorithm {
         }
     }
 
+    /**
+     * Evaluates a list of possible solutions (their fitness is evaluated and set).
+     * @param solutions The list of evaluated possible solutions.
+     */
     private void evaluateSolutions(List<Solution> solutions) {
         for(int i=0;i<solutions.size();i++) {
             solutions.get(i).setFitness(solutionsEvaluator.calculateFitnessForSolution(solutions.get(i)));

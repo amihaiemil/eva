@@ -10,32 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static org.junit.Assert.assertTrue;
+
 /**
+ * Test cases for {@link Eva} implementations.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public class EvolvingAlgorithmTest {
     private Random r = new Random();
 
+    /**
+     * {@link SimpleEvolvingAlgorithm} can find an acceptable solution.
+     * @throws Exception If something goes wrong.
+     */
     @Test
-    public void firstTest() throws Exception {
+    public void simpleEvaFindsASolution() throws Exception {
         List<Integer> weights = new ArrayList<Integer>();
         for(int i=0;i<20;i++) {
             weights.add(r.nextInt(100));
         }
         BinaryArraySolutionsGenerator generator = new BinaryArraySolutionsGenerator(weights.size());
         FitnessForBackpackEvaluator evaluator = new FitnessForBackpackEvaluator(weights);
-        EvolvingAlgorithm eva = new EvolvingAlgorithm();
-        Solution solution = eva.with(generator).with(evaluator).run();
-        NumericalRepresentation rep = (NumericalRepresentation) solution.getRepresentation();
-        for(int i=0;i<rep.getSize();i++) {
-            System.out.print(weights.get(i) + " ");
-        }
-        System.out.println(" ");
-        System.out.println("SUM: " + ((FitnessForBackpack) solution.getFitness()).getWeight());
-
-        for(int i=0;i<rep.getSize();i++) {
-            System.out.print(rep.get(i) + " ");
-        }
-
+        Eva algorithm = new SimpleEvolvingAlgorithm();
+        Solution solution = algorithm.with(generator).with(evaluator).calculate();
+        int solutionWeight = ((FitnessForBackpack) solution.getFitness()).getWeight();
+        assertTrue(
+                "Expected solution with weight <= 100, got weight: " + solutionWeight,
+                solutionWeight <= 100
+        );
     }
 }

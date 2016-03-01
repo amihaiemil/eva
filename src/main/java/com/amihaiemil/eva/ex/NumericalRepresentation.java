@@ -33,7 +33,7 @@ public class NumericalRepresentation implements Representation {
     }
 
     public void replaceAt(int index, int number) {
-            numbers.set(index, number);
+        numbers.set(index, number);
     }
 
     public int getSize() {
