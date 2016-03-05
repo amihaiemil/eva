@@ -18,7 +18,7 @@ public class BinaryArraySolutionsGeneratorTestCase {
         SolutionsGenerator generator = new BinaryArraySolutionsGenerator(5);
         Solution generatedSolution = generator.generateRandomSolution();
         assertTrue("Generated solution is null!", generatedSolution != null);
-        assertTrue("Wrong solution type!", generatedSolution instanceof IntegersArraySolution);
+        assertTrue("Wrong solution type!", generatedSolution instanceof BinaryArraySolution);
         assertTrue("Wrong representation type!", generatedSolution.getRepresentation() instanceof NumericalRepresentation);
         NumericalRepresentation representation = (NumericalRepresentation) generatedSolution.getRepresentation();
         for(int i=0;i<representation.getSize();i++){

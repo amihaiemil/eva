@@ -22,7 +22,7 @@ public class BinaryArraySolutionsGenerator implements SolutionsGenerator {
         for(int i=0;i<size;i++) {
             representation.addNumber(r.nextInt(2));
         }
-        Solution generated = new IntegersArraySolution();
+        Solution generated = new BinaryArraySolution(new Random());
         generated.setRepresentation(representation);
         return generated;
     }

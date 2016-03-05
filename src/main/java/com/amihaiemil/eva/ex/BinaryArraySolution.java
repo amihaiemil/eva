@@ -5,23 +5,24 @@ import com.amihaiemil.eva.Solution;
 import java.util.Random;
 
 /**
- * A Solution represented on an array of integers (NumericalRepresentation is used).
+ * A Solution represented on an array of 0 and 1 (NumericalRepresentation is used).
  * @author Mihai Andronache (amihaiemil@gmail.com).
  */
-public class IntegersArraySolution extends Solution {
-    private Random r = new Random();
+public class BinaryArraySolution extends Solution {
+    private Random chance = new Random();
+
+    public BinaryArraySolution(Random chance) {
+        this.chance = chance;
+    }
 
     @Override
     public void mutate(double pm) {
         NumericalRepresentation representation = (NumericalRepresentation) this.getRepresentation();
-
         for(int i=0;i<representation.getSize();i++) {
-            if(r.nextDouble() < pm) {
+            if(chance.nextDouble() < pm) {
                 representation.replaceAt(i, 1-representation.get(i));
             }
         }
-
-        this.setRepresentation(representation);
     }
 
     @Override
@@ -29,9 +30,9 @@ public class IntegersArraySolution extends Solution {
         NumericalRepresentation representation = (NumericalRepresentation) this.getRepresentation();
         NumericalRepresentation partnerRepresentation = (NumericalRepresentation) partner.getRepresentation();
 
-        Solution offspring = new IntegersArraySolution();
+        Solution offspring = new BinaryArraySolution(new Random());
         NumericalRepresentation offSpringRepresentation = new NumericalRepresentation();
-        int point = r.nextInt(representation.getSize());
+        int point = chance.nextInt(representation.getSize());
         for(int i=0;i<point;i++) {
             offSpringRepresentation.addNumber(representation.get(i));
         }

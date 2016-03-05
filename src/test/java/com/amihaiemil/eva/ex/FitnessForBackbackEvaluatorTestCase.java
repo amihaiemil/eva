@@ -6,6 +6,8 @@ import com.amihaiemil.eva.Solution;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Random;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -18,14 +20,12 @@ public class FitnessForBackbackEvaluatorTestCase {
      */
     @Test
     public void evaluatesFitnessCorrectly() {
-        FitnessEvaluator evaluator = new FitnessForBackpackEvaluator(
-                                        Arrays.asList(1,2,100)
-                                     );
+        FitnessEvaluator evaluator = new FitnessForBackpackEvaluator(Arrays.asList(1,2,100));
         NumericalRepresentation rep1 = new NumericalRepresentation();
         rep1.addNumber(1);
         rep1.addNumber(0);
         rep1.addNumber(1);
-        Solution solution = new IntegersArraySolution();
+        Solution solution = new BinaryArraySolution(new Random());
         solution.setRepresentation(rep1);
         Fitness fitness1 = evaluator.calculateFitnessForSolution(solution);
         assertFalse(fitness1.isOk());
