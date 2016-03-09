@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="styles/positioning.css">
+	<link rel="stylesheet" type="text/css" href="styles/lightTheme.css">
+	<title>Reusable software components - EvA</title>
+</head>
+<body>
+	<nav>
+		<select id="themeSelect">
+			<option selected value="styles/lightTheme.css">Light theme</option>
+			<option value="styles/darkTheme.css">Dark theme</option>
+		</select>
+	</nav>
+	<div class="page">
+		<section id="evaPage">
+			<h1 class="pageHeader">EvA</h1>
+			<div class="pageContent">
+				<p align="justify">
+					Eva is a Java OOP implementation of an <a
+						href="https://en.wikipedia.org/wiki/Evolutionary_algorithm"
+						title="Eva wiki" target="_blank"> evolutionary algorithm</a>,
+					which is a concept from the field of artifical intelligence. It can
+					help solve complicated problems that otherwise would require very
+					much computational effort to be solved.
+				</p>
+				<h3>Examples of problems that can be solved:</h3>
+				<ul class="dash">
+					<li>The backpack problem</li>
+					<li>The salesman's problem</li>
+					<li>... and really any other problem for which you can <br />
+						formalize the solution, solution generation and solution
+						evaluation,<br /> in such a way that Eva can <a href="#">understand</a>.
+					</li>
+				</ul>
+				<h3>How does it work?</h3>
+				<p align="justify">First, a number of possible solutions is generated and evaluated (evaluating a solution means saying how good, or how "fit" it is).
+				Based on these solutions, with each iteration, it tries to create better solutions by changing and combining the existing ones until finally, a solution is chosen to be the answer. 
+				The algorithm runs until certain conditions are met, like:</p>
+				<ul class="dash">
+					<li>number of iterations (implicit)</li>
+					<li>time consumed</li>
+					<li>a solution with a minimal "fitness" was found etc.</li>
+				</ul>
+				<h3>Wait, what?</h3>
+				<p align="justify">
+				From the simplicity of the above paragraph, you might have guessed that Eva is a <a href="https://en.wikipedia.org/wiki/Heuristic" title="heuristic wiki">heuristic</a>, rather than an algorithm. It's called an agorithm in AI, because
+				it tries to follow the evolving steps of living organisms (if you dig deeper in the theory, you will find words like "chromosome", or "mutation").</p>
+				<div class="center">
+					<img id="barbossa" title="Barbossa in Pirates of the Caribbean (2003) gif. credit: unknown" src="images/guidelines.gif"/>
+				</div>
+				<p align="justify">In other words, run it with the same input multiple times and you most likely won't get the same output. Also, based on the conditions you set, 
+				you might get a very satisfying solution, or one that is very bad.</p>
+				<p align="justify">Having this in sight, you must know not to use this method where both precision and speed are required. 
+				Depending on your problem, you might guarantee a satisfying result by specifying appropriate stopping conditions, but that takes 
+				away the speed. For a big input and strict conditions, it can take a lot of time for the algorithm to end - this is influenced also by the machine's specifications, of course.</p>
+			</div>
+		</section>
+	</div>
+	<script type="text/javascript" src="scripts/jquery-1.12.1.min.js"></script>
+	<script type="text/javascript" src="scripts/handleTheme.js"></script>
+	
+</body>
+</html>

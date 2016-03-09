@@ -1,0 +1,26 @@
+/* unvisited link */
+a:link {
+	color: grey;
+	font-weight: bold;
+}
+
+/* visited link */
+a:visited {
+	color: grey;
+	font-weight: bold;
+}
+
+/* mouse over link */
+a:hover {
+	color: grey;
+	font-weight: bold;
+}
+
+body {
+	font-family: Georgia, Serif;
+	background-color: grey;
+}
+.page {
+	color: grey;
+    background-color: black;
+}

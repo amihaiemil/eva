@@ -1,0 +1,48 @@
+a {
+    text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+	text-decoration: underline;
+}
+
+p {
+    text-indent:25px;
+}
+ul.dash {
+    list-style: none;
+}
+ul.dash > li:before {
+    display: inline-block;
+    content: "-";
+    width: 1em;
+    margin-left: -1em;
+}
+.page {
+    margin-left: 15%;
+    margin-right: 15%;
+    box-shadow: 5px 5px 5px #888888;
+}
+
+.center {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+#barbossa {
+    height: auto; 
+    width: 100%; 
+}
+
+.pageContent {
+	padding-left: 10%;
+	padding-right: 10%;
+	padding-top: 4%;
+	padding-bottom: 10%;
+	
+}
+.pageHeader {
+	padding-top: 5%;
+	margin-left: 45%;
+}

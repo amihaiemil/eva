@@ -1,0 +1,22 @@
+/* unvisited link */
+a:link {
+    color: #002699;
+}
+
+/* visited link */
+a:visited {
+    color: #1a53ff;
+}
+
+/* mouse over link */
+a:hover {
+    color: #1a53ff;
+}
+
+body {
+	font-family: Georgia, Serif;
+	background-color: #f2f2f2;
+}
+.page {
+    background-color: white;
+}
