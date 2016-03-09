@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Simple evolving algorithm implementation.
+ * Simple evolutionary algorithm implementation.
  * No threads, no error range or complicated stopping conditions.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public final class SimpleEvolvingAlgorithm implements Eva{
+public final class SimpleEvolutionaryAlgorithm implements Eva{
     private int populationSize;
     private int numberOfGenerations;
     private double crossoverProbability;
@@ -17,25 +17,41 @@ public final class SimpleEvolvingAlgorithm implements Eva{
     private SolutionsGenerator solutionsGenerator;
     private FitnessEvaluator solutionsEvaluator;
 
+    /**
+     * Additional stopping conditions.
+     */
+    private Condition additionalCondition;
+
     private Population initialPopulation;
     /**
      * Default constructor with default values for population size and mutation probability.
      */
-    public SimpleEvolvingAlgorithm() {
-        this.populationSize = 6000;
+    public SimpleEvolutionaryAlgorithm() {
+        this.populationSize = 1000;
         this.numberOfGenerations = 150;
         this.crossoverProbability = random.nextDouble();
         this.mutationProbability = random.nextDouble();
+        this.additionalCondition = new Condition() {
+            public boolean passed(Solution s) {
+                return true;
+            }
+        };
     }
 
     /**
      * Constructor with parameters for population size and number of generations.
      */
-    public SimpleEvolvingAlgorithm(int population, int generations) {
+    public SimpleEvolutionaryAlgorithm(int population, int generations) {
         this.populationSize = population;
         this.numberOfGenerations = generations;
         this.crossoverProbability = random.nextDouble();
         this.mutationProbability = random.nextDouble();
+        this.additionalCondition = new Condition() {
+            public boolean passed(Solution s) {
+                return true;
+            }
+        };
+
     }
 
     /**
@@ -55,6 +71,16 @@ public final class SimpleEvolvingAlgorithm implements Eva{
      */
     public Eva with(FitnessEvaluator evaluator) {
         this.solutionsEvaluator = evaluator;
+        return this;
+    }
+
+    /**
+     * Specify additional conditions that have to be met by the chosen solution.
+     * @param additionalCondition The specified condition(s).
+     * @return This algorithm.
+     */
+    public Eva with(Condition additionalCondition) {
+        this.additionalCondition = additionalCondition;
         return this;
     }
 
@@ -88,7 +114,7 @@ public final class SimpleEvolvingAlgorithm implements Eva{
                 initialPopulation = newPopulation;
             }
             bestSolutionFound = initialPopulation.bestIndividual();
-        } while (!bestSolutionFound.isAcceptable());
+        } while (!additionalCondition.passed(bestSolutionFound));
         return bestSolutionFound;
     }
 
