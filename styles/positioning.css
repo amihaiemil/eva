@@ -20,12 +20,10 @@ ul.dash > li:before {
     margin-left: -1em;
 }
 .page {
-    margin-left: 15%;
-    margin-right: 15%;
     box-shadow: 5px 5px 5px #888888;
 }
 
-.center {
+.mlr15 {
     margin-left: 15%;
     margin-right: 15%;
 }
@@ -46,3 +44,63 @@ ul.dash > li:before {
 	padding-top: 5%;
 	margin-left: 45%;
 }
+
+.sliderLeft {
+	border-radius:10px;
+	width: 5em;
+	position: absolute;
+	left: -2.5em;
+
+	top: 12em;
+
+}
+.sliderLeft:hover{
+	left: -0.4em;
+}
+
+.sliderRight {
+	width: 5em;
+	position: absolute;
+	right: 0em;
+
+	top: 12em;
+
+}
+.sliderElement {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-left: 1.3em;
+}
+
+.sliderElement:hover {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-left: 1.6em;
+}
+
+.sliderElementRight {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-left: 1.3em;
+}
+
+.sliderElementRight:hover {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-left: 1.6em;
+}
+
+.avatar {
+    height: 32px;
+	width: 32px;
+}
+
+code.multiline {
+    display: block;
+}
+
+footer {
+    margin: auto;
+    color: #0033cc;
+    text-align:center; //to align the text in center
+}​

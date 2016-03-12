@@ -13,10 +13,26 @@ a:hover {
     color: #1a53ff;
 }
 
-body {
-	font-family: Georgia, Serif;
-	background-color: #f2f2f2;
+.blue {
+	background-color: lightblue;
 }
 .page {
-    background-color: white;
+    background-color: #f2f2f2;
+}
+
+.sliderLeft {
+	background-color: #3366ff;
+	box-shadow: 5px 5px 5px #002699;
+}
+.sliderElement:hover {
+	box-shadow: 5px 5px 5px #002699;
+}
+
+.sliderElement.selected {
+	background-color: #0033cc;
+	box-shadow: 5px 5px 5px #002699;
+}
+
+th {
+    align: center;
 }

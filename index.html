@@ -3,19 +3,32 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="styles/positioning.css">
 	<link rel="stylesheet" type="text/css" href="styles/lightTheme.css">
+	<script type="text/javascript" src="scripts/jquery-1.12.1.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 	<title>Reusable software components - EvA</title>
 </head>
-<body>
+<body class="blue">
 	<nav>
-		<select id="themeSelect">
+		<!--<select id="themeSelect">
 			<option selected value="styles/lightTheme.css">Light theme</option>
 			<option value="styles/darkTheme.css">Dark theme</option>
-		</select>
+		</select>-->
 	</nav>
-	<div class="page">
+	<div class="sliderLeft">
+		<div class="sliderElement selected" id="homeButton"><img title="Home" alt="home icon" src="images/icons_light/home_selected.png"/></div>
+		<div class="sliderElement" id="usageButton"><img title="Usage" alt="usage icon" src="images/icons_light/usage.png"/></div>
+		<div class="sliderElement" id="releasesButton"><img title="Releases" alt="releases icon" src="images/icons_light/releases.png"/></div>
+		<div class="sliderElement" id="authorsButton"><img title="Authors" alt="authors icon" src="images/icons_light/authors.png"/></div>
+		<div class="sliderElement"><img title="Repository on Github" alt="github logo" src="images/icons_light/github/GitHub-Mark-32px.png"/></div>
+	</div>
+
+	<div class="page mlr15">
 		<section id="evaPage">
 			<h1 class="pageHeader">EvA</h1>
-			<div class="pageContent">
+			<div id="intro" class="pageContent">
 				<p align="justify">
 					Eva is a Java OOP implementation of an <a
 						href="https://en.wikipedia.org/wiki/Evolutionary_algorithm"
@@ -30,7 +43,7 @@
 					<li>The salesman's problem</li>
 					<li>... and really any other problem for which you can <br />
 						formalize the solution, solution generation and solution
-						evaluation,<br /> in such a way that Eva can <a href="#">understand</a>.
+						evaluation,<br /> in such a way that Eva can understand (see Usage page).
 					</li>
 				</ul>
 				<h3>How does it work?</h3>
@@ -46,19 +59,84 @@
 				<p align="justify">
 				From the simplicity of the above paragraph, you might have guessed that Eva is a <a href="https://en.wikipedia.org/wiki/Heuristic" title="heuristic wiki">heuristic</a>, rather than an algorithm. It's called an agorithm in AI, because
 				it tries to follow the evolving steps of living organisms (if you dig deeper in the theory, you will find words like "chromosome", or "mutation").</p>
-				<div class="center">
+				<div class="mlr15">
 					<img id="barbossa" title="Barbossa in Pirates of the Caribbean (2003) gif. credit: unknown" src="images/guidelines.gif"/>
 				</div>
-				<p align="justify">In other words, run it with the same input multiple times and you most likely won't get the same output. Also, based on the conditions you set, 
+				<p align="justify">In other words, run it with the same input multiple times and you most likely won't get the same output. Also, based on the conditions you set,
 				you might get a very satisfying solution, or one that is very bad.</p>
 				<p align="justify">Having this in sight, you must know not to use this method where both precision and speed are required. 
 				Depending on your problem, you might guarantee a satisfying result by specifying appropriate stopping conditions, but that takes 
 				away the speed. For a big input and strict conditions, it can take a lot of time for the algorithm to end - this is influenced also by the machine's specifications, of course.</p>
 			</div>
+			<div id="usage" class="pageContent" style="display:none;">
+				<h3>Light maven dependency</h3>
+				<p align="justify">The library comes as a lightweight maven dependency. To start using it,
+				simply add <a href="#">this dependency</a> into your <code>pom.xml</code></p>
+				<h3>Needed implementations: </h3>
+				<p>Eva expects concrete implementations of a few abstractions that are used. Things that can't come out-of-the-box (they are specific to each problem)</p>
+				<ul class="dash">
+					<li>A <code>Representation</code> for a <code>Solution</code>. How does a solution to your problem look like?</li>
+					<li>Define what a solution's <code>Fitness</code> is and how it's calculated.</li>
+					<li>How does a solution <code>mutate</code> (change its representation) and how do 2 solutions create another.<br/>
+					Be creative here and try to predict the behaviour of a solution. This part is actually the engine of everything and
+					can make a big difference in the performance of the algorithm!</li>
+					<li>How is a <code>Solution</code> created? The algorithm starts off by creating a number of solutions
+					to work with, so you need to provide a generator of solutions.</li>
+				</ul>
+				<h3>Example implementations</h3>
+				<p align="justify">Look in the package <a href="#">com.amihaiemil.eva.ex</a> to find implementations that can be used in solving the
+				backpack's problem. Also, taking a look in the unit tests will surely help you get a good grip of how to
+				use this library.</p>
+			</div>
+			<div id="releases" class="pageContent" style="display:none;">
+
+			</div>
+			<div id="authors" class="pageContent" style="display:none;">
+				<h3>Open source @ Github: </h3>
+				<p>
+					If you wish to contribute to this project:
+				</p>
+					<ol>
+						<li>Open an issue regarding an improvement you thought of, or
+							a bug you noticed.</li>
+						<li>If the issue is confirmed, fork the repository, do the changes and make a Pull Request.</li>
+						<li>After review and acceptance, the PR is merged and closed.</li>
+						<li>You are automatically listed as a contributor.</li>
+					</ol>
+				<h3>Contributors: </h3>
+				<div id="nogithub">
+					The list of contributors can be found <a href="https://github.com/jcabi/jcabi-http/graphs/contributors">here</a>
+				</div>
+				<div id="githubok" class="table-responsive" style="display:none;">
+					<table class="table" id="authorsTable">
+						<tr>
+							<th></th>
+							<th>Github username</th>
+							<th>Contributions</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+
 		</section>
 	</div>
-	<script type="text/javascript" src="scripts/jquery-1.12.1.min.js"></script>
-	<script type="text/javascript" src="scripts/handleTheme.js"></script>
-	
+	<div class="mlr15" id="disqus_thread"></div>
+	<footer>
+		<div>Last updated: 12.03.2016</div>
+		<div>Hosted by <a href="https://pages.github.com/">Github</a></div>
+		<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+	</footer>
+	<script type="text/javascript" src="scripts/pages.js"></script>
+	<script type="text/javascript" src="scripts/getContributors.js"></script>
+	<!--<script>
+		(function() { // DON'T EDIT BELOW THIS LINE
+			var d = document, s = d.createElement('script');
+			s.src = '//evawebsite.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+	</script>-->
+	<noscript>Please enable JavaScript in order to have a good experience using this website.
+	For the best experience, we recommend using the browser Google Chrome.</noscript>
 </body>
 </html>
