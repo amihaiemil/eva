@@ -91,9 +91,8 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
      * until it finds a Solution with an acceptable Fitness (iterations might be exceeded
      * before finding an acceptable solution).
      * @return The best solution found (the solution with the best ok Fitness).
-     * @throws IllegalStateException If no generator of solutions was specified.
      */
-    public Solution calculate() throws IllegalStateException {
+    public Solution calculate() {
         if(this.solutionsGenerator == null) {
             throw new IllegalStateException("A generator of solutions must be specified!");
         }
