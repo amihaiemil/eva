@@ -3,7 +3,7 @@ package com.amihaiemil.eva.ex;
 import com.amihaiemil.eva.Fitness;
 
 /**
- * Fitness of an solution to the 'Packing Problem'
+ * Fitness of a solution to the 'Backpack Problem'
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public class FitnessForBackpack implements Fitness{

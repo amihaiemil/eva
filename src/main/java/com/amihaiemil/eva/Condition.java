@@ -8,6 +8,7 @@ public interface Condition {
 
     /**
      * Does the solution meet this condition or not?
+     * @param solution The tested solution.
      * @return true if it is met or false otherwise.
      */
     boolean passed(Solution solution);

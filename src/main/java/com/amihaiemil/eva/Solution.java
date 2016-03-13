@@ -1,7 +1,7 @@
 package com.amihaiemil.eva;
 
 /**
- * Interface to be implemented by a possible solution of the algorithm.
+ * Abstract class to be extended by a possible solution of the algorithm.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public abstract class Solution {
@@ -42,7 +42,7 @@ public abstract class Solution {
 
     /**
      * Mutate (change) this solution's representation with regards to pm - possibility of mutation.
-     * @param pm A random chosen double (0 < pm < 1) that should give the random element in this solution's mutation.
+     * @param pm A random chosen double (0 &lt; pm &lt; 1) that should give the random element in this solution's mutation.
      */
     public abstract void mutate(double pm);
 
@@ -50,6 +50,7 @@ public abstract class Solution {
      * Crossover this solution with the given partner.
      * In other words, create a new solution with data taken from both this solution and the partner.
      * @param partner Another solution.
+     * @return The newly created solution.
      */
     public abstract Solution crossover(Solution partner);
 

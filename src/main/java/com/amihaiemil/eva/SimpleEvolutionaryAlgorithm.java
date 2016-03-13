@@ -40,6 +40,8 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
 
     /**
      * Constructor with parameters for population size and number of generations.
+     * @param population The number of initial solutions.
+     * @param generations The number of minimum iterations this algorithm does.
      */
     public SimpleEvolutionaryAlgorithm(int population, int generations) {
         this.populationSize = population;

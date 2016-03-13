@@ -6,6 +6,8 @@ import com.amihaiemil.eva.SolutionsGenerator;
 import java.util.Random;
 
 /**
+ * The algorithm starts off by generating a number of possible
+ * solutions for the problem.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public class BinaryArraySolutionsGenerator implements SolutionsGenerator {

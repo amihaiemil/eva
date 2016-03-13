@@ -7,6 +7,7 @@ import com.amihaiemil.eva.Solution;
 import java.util.List;
 
 /**
+ * Each solution for the 'Backpack problem' has to have its fitness evaluated.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public class FitnessForBackpackEvaluator implements FitnessEvaluator {
