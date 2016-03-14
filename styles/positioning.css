@@ -9,7 +9,9 @@ a:hover {
 
 p {
     text-indent:25px;
+	text-align: justify;
 }
+
 ul.dash {
     list-style: none;
 }
@@ -93,10 +95,6 @@ ul.dash > li:before {
 .avatar {
     height: 32px;
 	width: 32px;
-}
-
-code.multiline {
-    display: block;
 }
 
 footer {

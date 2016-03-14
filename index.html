@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="styles/positioning.css">
 	<link rel="stylesheet" type="text/css" href="styles/lightTheme.css">
 	<script type="text/javascript" src="scripts/jquery-1.12.1.min.js"></script>
@@ -8,15 +9,12 @@
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-	<title>Reusable software components - EvA</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<title>EvA project</title>
 </head>
 <body class="blue">
-	<nav>
-		<!--<select id="themeSelect">
-			<option selected value="styles/lightTheme.css">Light theme</option>
-			<option value="styles/darkTheme.css">Dark theme</option>
-		</select>-->
-	</nav>
 	<div class="sliderLeft">
 		<div class="sliderElement selected" id="homeButton"><img title="Home" alt="home icon" src="images/icons_light/home_selected.png"/></div>
 		<div class="sliderElement" id="usageButton"><img title="Usage" alt="usage icon" src="images/icons_light/usage.png"/></div>
@@ -29,7 +27,7 @@
 		<section id="evaPage">
 			<h1 class="pageHeader">EvA</h1>
 			<div id="intro" class="pageContent">
-				<p align="justify">
+				<p>
 					Eva is a Java OOP implementation of an <a
 						href="https://en.wikipedia.org/wiki/Evolutionary_algorithm"
 						title="Eva wiki" target="_blank"> evolutionary algorithm</a>,
@@ -47,7 +45,7 @@
 					</li>
 				</ul>
 				<h3>How does it work?</h3>
-				<p align="justify">First, a number of possible solutions is generated and evaluated (evaluating a solution means saying how good, or how "fit" it is).
+				<p>First, a number of possible solutions is generated and evaluated (evaluating a solution means saying how good, or how "fit" it is).
 				Based on these solutions, with each iteration, it tries to create better solutions by changing and combining the existing ones until finally, a solution is chosen to be the answer. 
 				The algorithm runs until certain conditions are met, like:</p>
 				<ul class="dash">
@@ -56,22 +54,23 @@
 					<li>a solution with a minimal "fitness" was found etc.</li>
 				</ul>
 				<h3>Wait, what?</h3>
-				<p align="justify">
+				<p>
 				From the simplicity of the above paragraph, you might have guessed that Eva is a <a href="https://en.wikipedia.org/wiki/Heuristic" title="heuristic wiki">heuristic</a>, rather than an algorithm. It's called an agorithm in AI, because
 				it tries to follow the evolving steps of living organisms (if you dig deeper in the theory, you will find words like "chromosome", or "mutation").</p>
 				<div class="mlr15">
-					<img id="barbossa" title="Barbossa in Pirates of the Caribbean (2003) gif. credit: unknown" src="images/guidelines.gif"/>
+					<img id="barbossa" title="Barbossa in Pirates of the Caribbean (2003) gif. credit: unknown" alt="eva guidelines.png" src="images/guidelines.gif"/>
 				</div>
-				<p align="justify">In other words, run it with the same input multiple times and you most likely won't get the same output. Also, based on the conditions you set,
+				<p>In other words, run it with the same input multiple times and you most likely won't get the same output. Also, based on the conditions you set,
 				you might get a very satisfying solution, or one that is very bad.</p>
-				<p align="justify">Having this in sight, you must know not to use this method where both precision and speed are required. 
+				<p>Having this in sight, you must know not to use this method where both precision and speed are required. 
 				Depending on your problem, you might guarantee a satisfying result by specifying appropriate stopping conditions, but that takes 
 				away the speed. For a big input and strict conditions, it can take a lot of time for the algorithm to end - this is influenced also by the machine's specifications, of course.</p>
 			</div>
 			<div id="usage" class="pageContent" style="display:none;">
 				<h3>Light maven dependency</h3>
-				<p align="justify">The library comes as a lightweight maven dependency. To start using it,
-				simply add <a href="#">this dependency</a> into your <code>pom.xml</code></p>
+				<p>The library comes as a lightweight maven dependency. To start using it,
+				simply add this dependency into your <code>pom.xml</code>: </p>
+				<pre><code>&lt;dependency&gt;<br/>&#9;&lt;groupId&gt;com.amihaiemil.ai&lt;/groupId&gt;<br/>&#9;&lt;artifactId&gt;eva&lt;/artifactId&gt;<br/>&#9;&lt;version&gt;1.0.0&lt;/version&gt;<br/>&lt;/dependency&gt;</code></pre>
 				<h3>Needed implementations: </h3>
 				<p>Eva expects concrete implementations of a few abstractions that are used. Things that can't come out-of-the-box (they are specific to each problem)</p>
 				<ul class="dash">
@@ -84,12 +83,16 @@
 					to work with, so you need to provide a generator of solutions.</li>
 				</ul>
 				<h3>Example implementations</h3>
-				<p align="justify">Look in the package <a href="#">com.amihaiemil.eva.ex</a> to find implementations that can be used in solving the
+				<p>Look in the package <a href="#">com.amihaiemil.eva.ex</a> to find implementations that can be used in solving the
 				backpack's problem. Also, taking a look in the unit tests will surely help you get a good grip of how to
 				use this library.</p>
 			</div>
 			<div id="releases" class="pageContent" style="display:none;">
-
+			<h3>Releases history</h3>
+			<p>You can find on this page the list of all releases joined by a sumary of changes in each release. If you're a maven user, you can obtain the latest release by putting the following snippet in your <code>pom.xml</code>:</p>
+			<pre><code>&lt;dependency&gt;<br/>&#9;&lt;groupId&gt;com.amihaiemil.ai&lt;/groupId&gt;<br/>&#9;&lt;artifactId&gt;eva&lt;/artifactId&gt;<br/>&#9;&lt;version&gt;1.0.0&lt;/version&gt;<br/>&lt;/dependency&gt;</code></pre>
+			<h3>Licence</h3>
+			<p>The EvA project free and open source, released under <b>The BSD 3-Clause Licence</b>. See <a href="#">LICENCE</a> file for details.</p>
 			</div>
 			<div id="authors" class="pageContent" style="display:none;">
 				<h3>Open source @ Github: </h3>
@@ -121,7 +124,7 @@
 		</section>
 	</div>
 	<div class="mlr15" id="disqus_thread"></div>
-	<footer>
+	<footer class="mlr15">
 		<div>Last updated: 12.03.2016</div>
 		<div>Hosted by <a href="https://pages.github.com/">Github</a></div>
 		<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
