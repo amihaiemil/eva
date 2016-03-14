@@ -56,7 +56,7 @@ public interface Eva {
      * Optionally, you can specify additional stopping conditions that the found solution has
      * to meet before the algorithm stops.
      * @param additionalStoppingConditions The added condition(s).
-     * @return This algorithm instance (for fluend usage of with(...) methods).
+     * @return This algorithm instance (for fluent usage of with(...) methods).
      */
     Eva with(Condition additionalStoppingConditions);
 }

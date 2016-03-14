@@ -27,6 +27,9 @@
  */
 package com.amihaiemil.eva;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.Random;
 
@@ -36,6 +39,7 @@ import java.util.Random;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public final class SimpleEvolutionaryAlgorithm implements Eva{
+    private static final Logger logger = LoggerFactory.getLogger(SimpleEvolutionaryAlgorithm.class);
     private int populationSize;
     private int numberOfGenerations;
     private double crossoverProbability;
@@ -63,6 +67,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
                 return true;
             }
         };
+        logger.debug("Initialized evolutionary algorithm with default parameters");
     }
 
     /**
@@ -80,7 +85,8 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
                 return true;
             }
         };
-
+        logger.debug("Initialized evolutionary algorithm with population size " + population +
+                " number of generations: " + generations);
     }
 
     /**
@@ -114,16 +120,18 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
     }
 
     /**
-     * Calculates the solution. Runs until the <b>numberOfGenerations</b> was exceeded or
-     * until it finds a Solution with an acceptable Fitness (iterations might be exceeded
-     * before finding an acceptable solution).
-     * @return The best solution found (the solution with the best ok Fitness).
+     * Calculates the solution. Does <b>numberOfGenerations</b> x <b>populationSize</b>
+     * iterations or more, until the additional stopping conditions are met (if any are specified).
+     * @return A solution.
      */
     public Solution calculate() {
+        logger.debug("Running the evolutionary algorithm...");
         if(this.solutionsGenerator == null) {
+            logger.error("No generator of solutions was specified!");
             throw new IllegalStateException("A generator of solutions must be specified!");
         }
         if(this.solutionsEvaluator == null) {
+            logger.error("No fitness evaluator was specified!");
             throw new IllegalStateException("An evaluator of solutions must be specified!");
         }
         this.initialPopulation = new Population(solutionsGenerator, populationSize);
@@ -143,6 +151,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
             }
             bestSolutionFound = initialPopulation.bestIndividual();
         } while (!additionalCondition.passed(bestSolutionFound));
+        logger.debug("Evolutionary algorithm run finished! Solution found: " + bestSolutionFound);
         return bestSolutionFound;
     }
 

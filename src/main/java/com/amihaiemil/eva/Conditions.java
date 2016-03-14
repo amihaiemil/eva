@@ -27,6 +27,9 @@
  */
 package com.amihaiemil.eva;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,34 +39,39 @@ import java.util.List;
  */
 public final class Conditions implements Condition {
 
+    private static final Logger logger = LoggerFactory.getLogger(Conditions.class);
     private boolean resolution;
     private Condition initialCondition;
     private List<AddedCondition> addedConditions = new ArrayList<AddedCondition>();
     public Conditions (Condition initialCondition) {
+        logger.debug("Adding multiple stopping conditions. Initial condition: " + initialCondition.toString());
         this.initialCondition = initialCondition;
     }
 
     /**
-     * Add a condition to the list with an 'and' clause.
+     * Add a condition to the list with an 'and' operator.
      * @param condition Added condition.
      * @return this instance of conditions.
      */
     public Conditions and(Condition condition) {
+        logger.debug("Adding stopping condition with AND operator: AND " + condition.toString());
         this.addedConditions.add(new AddedCondition("&&", condition));
         return this;
     }
 
     /**
-     * Add a condition to the list with an 'or' clause.
+     * Add a condition to the list with an 'or' operator.
      * @param condition Added condition.
      * @return this instance of conditions.
      */
     public Conditions or(Condition condition) {
+        logger.debug("Adding stopping condition with OR operator: OR " + condition.toString());
         this.addedConditions.add(new AddedCondition("||", condition));
         return this;
     }
 
     public boolean passed(Solution s) {
+        logger.debug("Resolving multiple stopping conditions...");
         this.resolution = initialCondition.passed(s);
         for(int i=0;i<addedConditions.size();i++) {
             AddedCondition condition = addedConditions.get(i);
@@ -73,9 +81,13 @@ public final class Conditions implements Condition {
                 this.resolution = this.resolution && condition.getCondition().passed(s);
             }
         }
+        logger.debug("Stopping conditions resolved. Resolution: " + this.resolution);
         return this.resolution;
     }
 
+    /**
+     * Wrapper for an added condition, to also specify the operator.
+     */
     private static final class AddedCondition {
         private String operator;
         private Condition condition;
