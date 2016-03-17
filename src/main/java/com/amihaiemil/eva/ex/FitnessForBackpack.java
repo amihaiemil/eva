@@ -49,7 +49,7 @@ public class FitnessForBackpack implements Fitness{
     }
 
     public boolean isOk() {
-        return solutionWeight <= backpackCapacity;
+        return solutionWeight > 0 && solutionWeight <= backpackCapacity;
     }
 
     public int compareTo(Fitness o) {
