@@ -54,7 +54,7 @@ public final class Conditions implements Condition {
      * @return this instance of conditions.
      */
     public Conditions and(Condition condition) {
-        logger.debug("Adding stopping condition with AND operator: AND " + condition.toString());
+        logger.info("Adding stopping condition with AND operator: AND " + condition.toString());
         this.addedConditions.add(new AddedCondition("&&", condition));
         return this;
     }
@@ -65,13 +65,13 @@ public final class Conditions implements Condition {
      * @return this instance of conditions.
      */
     public Conditions or(Condition condition) {
-        logger.debug("Adding stopping condition with OR operator: OR " + condition.toString());
+        logger.info("Adding stopping condition with OR operator: OR " + condition.toString());
         this.addedConditions.add(new AddedCondition("||", condition));
         return this;
     }
 
     public boolean passed(Solution s) {
-        logger.debug("Resolving multiple stopping conditions...");
+        logger.info("Resolving multiple stopping conditions...");
         this.resolution = initialCondition.passed(s);
         for(int i=0;i<addedConditions.size();i++) {
             AddedCondition condition = addedConditions.get(i);
@@ -81,7 +81,7 @@ public final class Conditions implements Condition {
                 this.resolution = this.resolution && condition.getCondition().passed(s);
             }
         }
-        logger.debug("Stopping conditions resolved. Resolution: " + this.resolution);
+        logger.info("Stopping conditions resolved. Resolution: " + this.resolution);
         return this.resolution;
     }
 

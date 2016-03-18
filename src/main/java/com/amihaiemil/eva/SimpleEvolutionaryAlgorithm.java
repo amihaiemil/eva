@@ -125,7 +125,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
      * @return A solution.
      */
     public Solution calculate() {
-        logger.debug("Running the evolutionary algorithm...");
+        logger.info("Running the evolutionary algorithm...");
         if(this.solutionsGenerator == null) {
             logger.error("No generator of solutions was specified!");
             throw new IllegalStateException("A generator of solutions must be specified!");
@@ -151,7 +151,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
             }
             bestSolutionFound = initialPopulation.bestIndividual();
         } while (!additionalCondition.passed(bestSolutionFound));
-        logger.debug("Evolutionary algorithm run finished! Solution found: " + bestSolutionFound);
+        logger.info("Evolutionary algorithm run finished! Solution found: " + bestSolutionFound);
         return bestSolutionFound;
     }
 
