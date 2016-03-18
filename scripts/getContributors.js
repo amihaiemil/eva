@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    getAuthors("https://api.github.com/repos/jcabi/jcabi-http/contributors");
+    getAuthors("https://api.github.com/repos/amihaiemil/eva/contributors");
 });
 function getAuthors(contributorsUrl) {
 	$.support.cors = true;
