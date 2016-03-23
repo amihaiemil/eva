@@ -64,7 +64,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
         this.mutationProbability = random.nextDouble();
         this.additionalCondition = new Condition() {
             public boolean passed(Solution s) {
-                return true;
+                return false;
             }
         };
         logger.debug("Initialized evolutionary algorithm with default parameters");
@@ -82,7 +82,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
         this.mutationProbability = random.nextDouble();
         this.additionalCondition = new Condition() {
             public boolean passed(Solution s) {
-                return true;
+                return false;
             }
         };
         logger.debug("Initialized evolutionary algorithm with population size " + population +
@@ -137,22 +137,22 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
         this.initialPopulation = new Population(solutionsGenerator, populationSize);
         this.evaluateSolutions(initialPopulation.getIndividuals());
         Population newPopulation;
-        Solution bestSolutionFound;
-        do {
-            for (int i = 0; i < numberOfGenerations; i++) {
-                newPopulation = new Population();
-                for (int j = 0; j < populationSize; j++) {
-                    Solution child = this.mate(initialPopulation.selectIndividual(), initialPopulation.selectIndividual());
-                    child.mutate(mutationProbability);
-                    child.setFitness(solutionsEvaluator.calculateFitnessForSolution(child));
-                    newPopulation.addIndividual(child);
+        for (int i = 0; i < numberOfGenerations; i++) {
+            newPopulation = new Population();
+            for (int j = 0; j < populationSize; j++) {
+                Solution child = this.mate(initialPopulation.selectIndividual(), initialPopulation.selectIndividual());
+                child.mutate(mutationProbability);
+                child.setFitness(solutionsEvaluator.calculateFitnessForSolution(child));
+                if(additionalCondition.passed(child)) {
+                    logger.info("Evolutionary algorithm run finished successfully! The found solution meets the specified conditions.");
+                    return child;
                 }
-                initialPopulation = newPopulation;
+                newPopulation.addIndividual(child);
             }
-            bestSolutionFound = initialPopulation.bestIndividual();
-        } while (!additionalCondition.passed(bestSolutionFound));
-        logger.info("Evolutionary algorithm run finished! Solution found: " + bestSolutionFound);
-        return bestSolutionFound;
+            initialPopulation = newPopulation;
+        }
+        logger.info("Evolutionary algorithm run finished successfully!");
+        return initialPopulation.bestIndividual();
     }
 
     /**

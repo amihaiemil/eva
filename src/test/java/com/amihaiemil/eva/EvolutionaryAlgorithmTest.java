@@ -73,5 +73,6 @@ public class EvolutionaryAlgorithmTest {
                 "Expected solution with weight <= 100, got weight: " + solutionWeight,
                 solutionWeight <= 100
         );
+        System.out.println(solutionWeight);
     }
 }
