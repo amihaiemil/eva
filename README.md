@@ -1,4 +1,6 @@
 # eva
+[![Build Status](https://travis-ci.org/amihaiemil/eva.svg?branch=master)](https://travis-ci.org/amihaiemil/eva)
+
 A Java OOP evolutionary algorithm framework.
 
 "Evolutionary algorithm" is a concept from the field of artifical intelligence.
