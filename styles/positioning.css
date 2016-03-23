@@ -6,7 +6,9 @@ a {
 a:hover {
 	text-decoration: underline;
 }
-
+a#travislink:hover {
+	text-decoration: none;
+}
 p {
     text-indent:25px;
 	text-align: justify;

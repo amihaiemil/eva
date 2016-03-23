@@ -110,7 +110,7 @@
 				</table>
 			</div>
 			<h3>Licence</h3>
-			<p>The EvA project free and open source, released under <b>The BSD 3-Clause Licence</b>. See <a href="#">LICENCE</a> file for details.</p>
+			<p>The EvA project free and open source, released under <b>The BSD 3-Clause Licence</b>. See <a title="Eva LICENSE file" href="https://github.com/amihaiemil/eva/blob/master/LICENSE.txt">LICENCE</a> file for details.</p>
 			</div>
 			<div id="authors" class="pageContent" style="display:none;">
 				<h3>Open source @ Github: </h3>
@@ -124,6 +124,10 @@
 						<li>After review and acceptance, the PR is merged and closed.</li>
 						<li>You are automatically listed as a contributor.</li>
 					</ol>
+				<a target="_blank" id="travislink" title="Travis build status" href="https://travis-ci.org/amihaiemil/eva">
+					<img alt="Travis build status" src="https://travis-ci.org/amihaiemil/eva.svg?branch=master"/>
+				</a>
+				<br/>
 				<h3>Contributors: </h3>
 				<div id="nogithub">
 					The list of contributors can be found <a target="_blank" href="https://github.com/amihaiemil/eva/graphs/contributors">here</a>
@@ -150,6 +154,9 @@
 	<script type="text/javascript" src="scripts/pages.js"></script>
 	<script type="text/javascript" src="scripts/getContributors.js"></script>
 	<script>
+		var disqus_config = function () {
+        	this.page.url = 'http://amihaiemil.github.io/eva/';
+    	};
 		(function() {
 			var d = document, s = d.createElement('script');
 			s.src = '//evawebsite.disqus.com/embed.js';
