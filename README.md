@@ -1,3 +1,4 @@
+<img src="http://eva.amihaiemil.com/images/icons_light/logo.png" align="left" height="100" width="100"/>
 # eva
 [![Build Status](https://travis-ci.org/amihaiemil/eva.svg?branch=master)](https://travis-ci.org/amihaiemil/eva)
 
