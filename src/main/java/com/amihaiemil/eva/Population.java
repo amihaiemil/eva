@@ -38,24 +38,25 @@ import java.util.Random;
 final class Population {
     private List<Solution> individuals;
     private Random chance = new Random();
-
+    private FitnessEvaluator evaluator;
     /**
      * Create a population of individuals, with a given size.
      * @param generator The generator of random solutions.
      * @param size The size of the population.
      */
-    Population(SolutionsGenerator generator, int size) {
+    Population(FitnessEvaluator evaluator, SolutionsGenerator generator, int size) {
         this.individuals = new ArrayList<Solution>();
         for(int i=0;i<size;i++) {
             individuals.add(generator.generateRandomSolution());
         }
+        this.evaluator = evaluator;
     }
 
     /**
      * Create a population with no individuals.
      */
-    Population() {
-        this.individuals = new ArrayList<Solution>();
+    Population(FitnessEvaluator evaluator) {
+        this(evaluator, null, 0);
     }
 
     /**
@@ -107,4 +108,12 @@ final class Population {
         return this.individuals.size();
     }
 
+    void evaluateIndividuals() {
+    	for(int i=0;i<individuals.size();i++) {
+    		individuals.get(i).setFitness(evaluator.calculateFitnessForSolution(individuals.get(i)));
+            if(individuals.get(i).getFitness() == null) {
+                throw new IllegalStateException("Fitness of the solution should have been set by now!");
+            }
+        }
+    }
 }

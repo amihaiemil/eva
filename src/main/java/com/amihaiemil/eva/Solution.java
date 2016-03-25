@@ -50,21 +50,25 @@ public abstract class Solution {
     public Fitness getFitness() {
         return this.fitness;
     }
+    
+    /**
+     * Set the fitness of this solution.
+     * @param fitness The set fitness of this solution.
+     */
+    public void setFitness(Fitness fitness) {
+        this.fitness = fitness;
+    }
 
     /**
      * Each solution should have a representation.
      * @return The representation of this solution.
      */
-    public Representation getRepresentation() { return this.representation;}
+    public Representation getRepresentation() {
+    	return this.representation;
+    }
 
-    public void setRepresentation(Representation rep) { this.representation = rep;}
-
-    /**
-     * Set the fitness of this solution.
-     * @param fitness The set fitness of this solution.
-     */
-    void setFitness(Fitness fitness) {
-        this.fitness = fitness;
+    public void setRepresentation(Representation rep) {
+    	this.representation = rep;
     }
 
     /**
@@ -77,9 +81,10 @@ public abstract class Solution {
      * Crossover this solution with the given partner.
      * In other words, create a new solution with data taken from both this solution and the partner.
      * @param partner Another solution.
+     * @param cp Crossover probability.
      * @return The newly created solution.
      */
-    public abstract Solution crossover(Solution partner);
+    public abstract Solution crossover(Solution partner, double cp);
 
     /**
      * A solution is acceptable if its fitness is ok.

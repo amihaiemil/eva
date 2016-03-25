@@ -69,13 +69,14 @@ public class BinaryArraySolutionTestCase {
     public void solutionsCrossover() {
         Random mockChance = Mockito.mock(Random.class);
         Mockito.when(mockChance.nextInt(4)).thenReturn(2);
+        Mockito.when(mockChance.nextDouble()).thenReturn(0.25);
 
         Solution mother= new BinaryArraySolution(mockChance);
         Solution father= new BinaryArraySolution(mockChance);
         mother.setRepresentation(new NumericalRepresentation(Arrays.asList(0,1,0,0)));
         father.setRepresentation(new NumericalRepresentation(Arrays.asList(0,0,1,1)));
 
-        Solution offspring = mother.crossover(father);
+        Solution offspring = mother.crossover(father, 0.5);
         NumericalRepresentation offspringRepresentation = (NumericalRepresentation) offspring.getRepresentation();
         assertTrue(offspringRepresentation.get(0) == 0);
         assertTrue(offspringRepresentation.get(1) == 1);

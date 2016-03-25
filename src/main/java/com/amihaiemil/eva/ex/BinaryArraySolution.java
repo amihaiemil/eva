@@ -53,20 +53,30 @@ public class BinaryArraySolution extends Solution {
     }
 
     @Override
-    public Solution crossover(Solution partner) {
-        NumericalRepresentation representation = (NumericalRepresentation) this.getRepresentation();
-        NumericalRepresentation partnerRepresentation = (NumericalRepresentation) partner.getRepresentation();
+    public Solution crossover(Solution partner, double cp) {
+    	if(chance.nextDouble() < cp) { //parents have an offspring
+    		NumericalRepresentation representation = (NumericalRepresentation) this.getRepresentation();
+            NumericalRepresentation partnerRepresentation = (NumericalRepresentation) partner.getRepresentation();
 
-        Solution offspring = new BinaryArraySolution(new Random());
-        NumericalRepresentation offSpringRepresentation = new NumericalRepresentation();
-        int point = chance.nextInt(representation.getSize());
-        for(int i=0;i<point;i++) {
-            offSpringRepresentation.addNumber(representation.get(i));
+            Solution offspring = new BinaryArraySolution(new Random());
+            NumericalRepresentation offSpringRepresentation = new NumericalRepresentation();
+            int point = chance.nextInt(representation.getSize());
+            for(int i=0;i<point;i++) {
+                offSpringRepresentation.addNumber(representation.get(i));
+            }
+            for(int i=point;i<representation.getSize();i++) {
+                offSpringRepresentation.addNumber(partnerRepresentation.get(i));
+            }
+            offspring.setRepresentation(offSpringRepresentation);
+            return offspring;
+        } else { //no offspring, return best parent.
+            if(this.getFitness().compareTo(partner.getFitness()) == 1) {
+                return this;
+            }
+            return partner;
         }
-        for(int i=point;i<representation.getSize();i++) {
-            offSpringRepresentation.addNumber(partnerRepresentation.get(i));
-        }
-        offspring.setRepresentation(offSpringRepresentation);
-        return offspring;
+    	
+    	
+    	
     }
 }
