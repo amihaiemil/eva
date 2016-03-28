@@ -25,34 +25,31 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.ex;
+package com.amihaiemil.eva.util;
 
 import com.amihaiemil.eva.Solution;
 import com.amihaiemil.eva.SolutionsGenerator;
+import org.junit.Test;
 
-import java.util.Random;
+import static org.junit.Assert.assertTrue;
 
 /**
- * The algorithm starts off by generating a number of possible
- * solutions for the problem.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class BinaryArraySolutionsGenerator implements SolutionsGenerator {
+public class BinaryArraySolutionsGeneratorTestCase {
     /**
-     * Size of the representation array.
+     * A solution cen be created using a {@link BinaryArraySolutionsGenerator}.
      */
-    private int size;
-    private Random r = new Random();
-    public BinaryArraySolutionsGenerator(int size) {
-        this.size = size;
-    }
-    public Solution generateRandomSolution() {
-        NumericalRepresentation representation = new NumericalRepresentation();
-        for(int i=0;i<size;i++) {
-            representation.addNumber(r.nextInt(2));
+    @Test
+    public void generatesSolution() {
+        SolutionsGenerator generator = new BinaryArraySolutionsGenerator(5);
+        Solution generatedSolution = generator.generateRandomSolution();
+        assertTrue("Generated solution is null!", generatedSolution != null);
+        assertTrue("Wrong solution type!", generatedSolution instanceof BinaryArraySolution);
+        assertTrue("Wrong representation type!", generatedSolution.getRepresentation() instanceof NumericalRepresentation);
+        NumericalRepresentation representation = (NumericalRepresentation) generatedSolution.getRepresentation();
+        for(int i=0;i<representation.getSize();i++){
+            assertTrue("Expected a binary representation!", representation.get(i) == 0 || representation.get(i) == 1);
         }
-        Solution generated = new BinaryArraySolution(new Random());
-        generated.setRepresentation(representation);
-        return generated;
     }
 }

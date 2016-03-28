@@ -25,41 +25,44 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.ex;
+package com.amihaiemil.eva.util;
 
 import com.amihaiemil.eva.Fitness;
+import com.amihaiemil.eva.FitnessEvaluator;
+import com.amihaiemil.eva.Solution;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Random;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Fitness of a solution to the 'Backpack Problem'
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class FitnessForBackpack implements Fitness{
-    private int backpackCapacity;
-    private int solutionWeight;
-    public FitnessForBackpack(int weight) {
-        this.backpackCapacity = 100;
-        this.solutionWeight = weight;
-    }
+public class FitnessForBackbackEvaluatorTestCase {
+    /**
+     * {@link FitnessForBackpackEvaluator} can evaluate the Fitness of a Solution.
+     */
+    @Test
+    public void evaluatesFitnessCorrectly() {
+        FitnessEvaluator evaluator = new FitnessForBackpackEvaluator(new long[]{1,2,100});
+        NumericalRepresentation rep1 = new NumericalRepresentation();
+        rep1.addNumber(1);
+        rep1.addNumber(0);
+        rep1.addNumber(1);
+        Solution solution = new BinaryArraySolution(new Random());
+        solution.setRepresentation(rep1);
+        Fitness fitness1 = evaluator.calculateFitnessForSolution(solution);
+        assertFalse(fitness1.isOk());
 
-    public int getWeight() {
-        return this.solutionWeight;
-    }
-    public int getSolutionWeight() {
-        return this.solutionWeight;
-    }
-
-    public boolean isOk() {
-        return solutionWeight > 0 && solutionWeight <= backpackCapacity;
-    }
-
-    public int compareTo(Fitness o) {
-        FitnessForBackpack other = (FitnessForBackpack) o;
-        if(this.solutionWeight > other.getSolutionWeight()) {
-            return -1;
-        }
-        if(this.solutionWeight == other.getSolutionWeight()) {
-            return 0;
-        }
-        return 1;
+        NumericalRepresentation rep2 = new NumericalRepresentation();
+        rep2.addNumber(1);
+        rep2.addNumber(1);
+        rep2.addNumber(0);
+        solution.setRepresentation(rep2);
+        Fitness fitness2 = evaluator.calculateFitnessForSolution(solution);
+        assertTrue(fitness2.isOk());
     }
 }

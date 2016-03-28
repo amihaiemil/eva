@@ -25,43 +25,34 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.ex;
+package com.amihaiemil.eva.util;
 
-import com.amihaiemil.eva.Fitness;
-import org.junit.Test;
+import com.amihaiemil.eva.Solution;
+import com.amihaiemil.eva.SolutionsGenerator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.Random;
 
 /**
- * Tests for {@link FitnessForBackpack}
+ * The algorithm starts off by generating a number of possible
+ * solutions for the problem.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class FitnessForBackpackTestCase {
+public class BinaryArraySolutionsGenerator implements SolutionsGenerator {
     /**
-     * The Fitness can tell if it's ok or not.
+     * Size of the representation array.
      */
-    @Test
-    public void isFitnessOkOrNot() {
-        Fitness fitness = new FitnessForBackpack(56);
-        assertTrue(fitness.isOk());
-        fitness = new FitnessForBackpack(150);
-        assertFalse(fitness.isOk());
+    private int size;
+    private Random r = new Random();
+    public BinaryArraySolutionsGenerator(int size) {
+        this.size = size;
     }
-
-    /**
-     * A Fitness can compare itself to another Fitness.
-     */
-    @Test
-    public void comparesItself() {
-        Fitness fitness1 = new FitnessForBackpack(56);
-        Fitness fitness2 = new FitnessForBackpack(90);
-        Fitness fitness3 = new FitnessForBackpack(101);
-        Fitness fitness4 = new FitnessForBackpack(56);
-
-        assertTrue(fitness1.compareTo(fitness2) == 1);
-        assertTrue(fitness2.compareTo(fitness1) == -1);
-        assertTrue(fitness2.compareTo(fitness3) == 1);
-        assertTrue(fitness1.compareTo(fitness4) == 0);
+    public Solution generateRandomSolution() {
+        NumericalRepresentation representation = new NumericalRepresentation();
+        for(int i=0;i<size;i++) {
+            representation.addNumber(r.nextInt(2));
+        }
+        Solution generated = new BinaryArraySolution(new Random());
+        generated.setRepresentation(representation);
+        return generated;
     }
 }

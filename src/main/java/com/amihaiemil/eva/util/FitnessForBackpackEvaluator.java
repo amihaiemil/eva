@@ -25,44 +25,53 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.ex;
+package com.amihaiemil.eva.util;
 
 import com.amihaiemil.eva.Fitness;
 import com.amihaiemil.eva.FitnessEvaluator;
 import com.amihaiemil.eva.Solution;
-import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Random;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * Each solution for the 'Backpack problem' has to have its fitness evaluated.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class FitnessForBackbackEvaluatorTestCase {
-    /**
-     * {@link FitnessForBackpackEvaluator} can evaluate the Fitness of a Solution.
-     */
-    @Test
-    public void evaluatesFitnessCorrectly() {
-        FitnessEvaluator evaluator = new FitnessForBackpackEvaluator(Arrays.asList(1,2,100));
-        NumericalRepresentation rep1 = new NumericalRepresentation();
-        rep1.addNumber(1);
-        rep1.addNumber(0);
-        rep1.addNumber(1);
-        Solution solution = new BinaryArraySolution(new Random());
-        solution.setRepresentation(rep1);
-        Fitness fitness1 = evaluator.calculateFitnessForSolution(solution);
-        assertFalse(fitness1.isOk());
+public class FitnessForBackpackEvaluator implements FitnessEvaluator {
 
-        NumericalRepresentation rep2 = new NumericalRepresentation();
-        rep2.addNumber(1);
-        rep2.addNumber(1);
-        rep2.addNumber(0);
-        solution.setRepresentation(rep2);
-        Fitness fitness2 = evaluator.calculateFitnessForSolution(solution);
-        assertTrue(fitness2.isOk());
+    private long capacity = 100;
+    private long[] objectsWeights;
+    /**
+     * Constructor.
+     * @param weights The weights of all the objects that could go in the backpack.
+     * Default backpack capacity is 100 units.
+     */
+    public FitnessForBackpackEvaluator(long[] weights) {
+        if(weights == null || weights.length ==0 ) {
+            throw new IllegalStateException("No weight specified!");
+        }
+        this.objectsWeights = weights;
+    }
+
+    /**
+     * Constructor.
+     * @param weights The weights of all the objects that could go in the backpack.
+     * @param capacity The capacity of the backpack.
+     */
+    public FitnessForBackpackEvaluator(long[] weights, long capacity) {
+        this(weights);
+        this.capacity = capacity;
+    }
+
+    public Fitness calculateFitnessForSolution(Solution solution) {
+        NumericalRepresentation representation = (NumericalRepresentation) solution.getRepresentation();
+        long solutionWeight = 0;
+        for (int i=0;i<representation.getSize();i++) {
+            if(representation.get(i) == 1) {
+                solutionWeight += this.objectsWeights[i];
+            }
+        }
+        return new FitnessForBackpack(solutionWeight, this.capacity);
     }
 }
