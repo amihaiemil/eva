@@ -25,31 +25,41 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.ex;
+package com.amihaiemil.eva.util;
 
-import com.amihaiemil.eva.Solution;
-import com.amihaiemil.eva.SolutionsGenerator;
-import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
+import com.amihaiemil.eva.Fitness;
 
 /**
+ * Fitness of a solution to the 'Backpack Problem'
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class BinaryArraySolutionsGeneratorTestCase {
-    /**
-     * A solution cen be created using a {@link BinaryArraySolutionsGenerator}.
-     */
-    @Test
-    public void generatesSolution() {
-        SolutionsGenerator generator = new BinaryArraySolutionsGenerator(5);
-        Solution generatedSolution = generator.generateRandomSolution();
-        assertTrue("Generated solution is null!", generatedSolution != null);
-        assertTrue("Wrong solution type!", generatedSolution instanceof BinaryArraySolution);
-        assertTrue("Wrong representation type!", generatedSolution.getRepresentation() instanceof NumericalRepresentation);
-        NumericalRepresentation representation = (NumericalRepresentation) generatedSolution.getRepresentation();
-        for(int i=0;i<representation.getSize();i++){
-            assertTrue("Expected a binary representation!", representation.get(i) == 0 || representation.get(i) == 1);
+class FitnessForBackpack implements Fitness{
+    private long backpackCapacity;
+    private long solutionWeight;
+    FitnessForBackpack(long weight, long backpackCapacity) {
+        this.backpackCapacity = backpackCapacity;
+        this.solutionWeight = weight;
+    }
+
+    public long getWeight() {
+        return this.solutionWeight;
+    }
+    public long getSolutionWeight() {
+        return this.solutionWeight;
+    }
+
+    public boolean isOk() {
+        return solutionWeight > 0 && solutionWeight <= backpackCapacity;
+    }
+
+    public int compareTo(Fitness o) {
+        FitnessForBackpack other = (FitnessForBackpack) o;
+        if(this.solutionWeight > other.getSolutionWeight()) {
+            return -1;
         }
+        if(this.solutionWeight == other.getSolutionWeight()) {
+            return 0;
+        }
+        return 1;
     }
 }

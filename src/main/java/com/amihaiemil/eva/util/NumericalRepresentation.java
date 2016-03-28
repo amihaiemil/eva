@@ -25,33 +25,40 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.ex;
+package com.amihaiemil.eva.util;
 
-import com.amihaiemil.eva.Fitness;
-import com.amihaiemil.eva.FitnessEvaluator;
-import com.amihaiemil.eva.Solution;
+import com.amihaiemil.eva.Representation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Each solution for the 'Backpack problem' has to have its fitness evaluated.
+ * Numerical representation of a Solution.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class FitnessForBackpackEvaluator implements FitnessEvaluator {
+public class NumericalRepresentation implements Representation {
+    private List<Integer> numbers;
 
-    private List<Integer> objectsWeights;
-    public FitnessForBackpackEvaluator(List<Integer> weights) {
-        this.objectsWeights = weights;
+    public NumericalRepresentation() {
+        this(new ArrayList<Integer>());
+    }
+    public NumericalRepresentation(List<Integer> rep) {
+        this.numbers = rep;
     }
 
-    public Fitness calculateFitnessForSolution(Solution solution) {
-        NumericalRepresentation representation = (NumericalRepresentation) solution.getRepresentation();
-        int solutionWeight = 0;
-        for (int i=0;i<representation.getSize();i++) {
-            if(representation.get(i) == 1) {
-                solutionWeight += objectsWeights.get(i);
-            }
-        }
-        return new FitnessForBackpack(solutionWeight);
+    public void addNumber(int number) {
+        this.numbers.add(number);
+    }
+
+    public int get(int index) {
+        return this.numbers.get(index);
+    }
+
+    public void replaceAt(int index, int number) {
+        numbers.set(index, number);
+    }
+
+    public int getSize() {
+        return this.numbers.size();
     }
 }

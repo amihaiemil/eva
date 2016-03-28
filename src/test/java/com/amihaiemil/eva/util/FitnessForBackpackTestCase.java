@@ -25,40 +25,43 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.ex;
+package com.amihaiemil.eva.util;
 
+import com.amihaiemil.eva.Fitness;
 import org.junit.Test;
 
-import java.util.Arrays;
-
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Tests for {@link FitnessForBackpack}
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class NumericalRepresentationTestCase {
+public class FitnessForBackpackTestCase {
     /**
-     * A number can be added to a NumericalRepresentation.
+     * The Fitness can tell if it's ok or not.
      */
     @Test
-    public void addsNumber() {
-        NumericalRepresentation representation = new NumericalRepresentation();
-        assertTrue(representation.getSize() == 0);
-        representation.addNumber(5);
-        assertTrue(representation.getSize() == 1);
+    public void isFitnessOkOrNot() {
+        Fitness fitness = new FitnessForBackpack(56, 100);
+        assertTrue(fitness.isOk());
+        fitness = new FitnessForBackpack(150, 100);
+        assertFalse(fitness.isOk());
     }
 
     /**
-     * A number can be replaced in a NumericalRepresentation.
+     * A Fitness can compare itself to another Fitness.
      */
     @Test
-    public void replacesNumberAt() {
-        NumericalRepresentation representation = new NumericalRepresentation(Arrays.asList(1, 2, 3));
-        assertTrue(representation.getSize() == 3);
-        assertTrue(representation.get(1) == 2);
-        representation.replaceAt(2, 4);
-        assertTrue(representation.getSize() == 3);
-        assertTrue(representation.get(2) == 4);
-    }
+    public void comparesItself() {
+        Fitness fitness1 = new FitnessForBackpack(56, 100);
+        Fitness fitness2 = new FitnessForBackpack(90, 100);
+        Fitness fitness3 = new FitnessForBackpack(101, 100);
+        Fitness fitness4 = new FitnessForBackpack(56, 100);
 
+        assertTrue(fitness1.compareTo(fitness2) == 1);
+        assertTrue(fitness2.compareTo(fitness1) == -1);
+        assertTrue(fitness2.compareTo(fitness3) == 1);
+        assertTrue(fitness1.compareTo(fitness4) == 0);
+    }
 }

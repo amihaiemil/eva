@@ -25,40 +25,40 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.ex;
+package com.amihaiemil.eva.util;
 
-import com.amihaiemil.eva.Representation;
+import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertTrue;
 
 /**
- * Numerical representation of a Solution.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class NumericalRepresentation implements Representation {
-    private List<Integer> numbers;
-
-    public NumericalRepresentation() {
-        numbers = new ArrayList<Integer>();
-    }
-    public NumericalRepresentation(List<Integer> rep) {
-        this.numbers = rep;
-    }
-
-    public void addNumber(int number) {
-        this.numbers.add(number);
+public class NumericalRepresentationTestCase {
+    /**
+     * A number can be added to a NumericalRepresentation.
+     */
+    @Test
+    public void addsNumber() {
+        NumericalRepresentation representation = new NumericalRepresentation();
+        assertTrue(representation.getSize() == 0);
+        representation.addNumber(5);
+        assertTrue(representation.getSize() == 1);
     }
 
-    public int get(int index) {
-        return this.numbers.get(index);
+    /**
+     * A number can be replaced in a NumericalRepresentation.
+     */
+    @Test
+    public void replacesNumberAt() {
+        NumericalRepresentation representation = new NumericalRepresentation(Arrays.asList(1, 2, 3));
+        assertTrue(representation.getSize() == 3);
+        assertTrue(representation.get(1) == 2);
+        representation.replaceAt(2, 4);
+        assertTrue(representation.getSize() == 3);
+        assertTrue(representation.get(2) == 4);
     }
 
-    public void replaceAt(int index, int number) {
-        numbers.set(index, number);
-    }
-
-    public int getSize() {
-        return this.numbers.size();
-    }
 }
