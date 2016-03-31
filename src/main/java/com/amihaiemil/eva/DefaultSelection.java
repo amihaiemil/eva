@@ -30,16 +30,21 @@ package com.amihaiemil.eva;
 import java.util.Collection;
 import java.util.Random;
 
+/**
+ * Default-used selection.
+ * @author Mihai Andronache (mihai.andronache@urss.ro)
+ *
+ */
 final class DefaultSelection implements Selection {
 	private Random chance = new Random();
 	/**
 	 * The best out of 2 randomly chosen solutions is returned.
 	 */
 	public Solution select(Collection<Solution> solutions) {
-		int size = solutions.size();
-		if(solutions == null || size == 0) {
+		if(solutions == null || solutions.size() == 0) {
 			throw new IllegalStateException ("Empty or null collection of solutions!");
 		}
+		int size = solutions.size();
 		Solution[] solArray = new Solution[size];
 		solutions.toArray(solArray);
 		Solution candidate1 = solArray[chance.nextInt(size)];
