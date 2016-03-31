@@ -57,9 +57,10 @@ final class Population {
     /**
      * Create a population with no individuals and default Selection.
      * @param evaluator The fitness evaluator.
+     * @param selection The individual Selection algorithm.
      */
-    Population(FitnessEvaluator evaluator) {
-        this(evaluator, null, new DefaultSelection(), 0);
+    Population(FitnessEvaluator evaluator, Selection selection) {
+        this(evaluator, null, selection, 0);
     }
 
     /**
