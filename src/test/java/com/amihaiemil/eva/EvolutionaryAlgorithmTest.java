@@ -34,7 +34,6 @@ import java.util.Random;
 import org.junit.Test;
 
 import com.amihaiemil.eva.util.BinaryArraySolutionsGenerator;
-import com.amihaiemil.eva.util.FitnessForBackpack;
 import com.amihaiemil.eva.util.FitnessForBackpackEvaluator;
 
 /**

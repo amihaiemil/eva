@@ -37,6 +37,7 @@ import java.util.List;
 final class Population {
     private List<Solution> individuals;
     private FitnessEvaluator evaluator;
+    private Selection selection;
     /**
      * Create a population of individuals, with a given size.
      * @param evaluator The fitness evaluator.
@@ -50,6 +51,7 @@ final class Population {
             individuals.add(generator.generateRandomSolution());
         }
         this.evaluator = evaluator;
+        this.selection = selection;
     }
 
     /**
@@ -73,7 +75,7 @@ final class Population {
      * @return The selected individual.
      */
     Solution selectIndividual() {
-    	return new DefaultSelection().select(this.individuals);
+    	return this.selection.select(this.individuals);
     }
 
     /**
