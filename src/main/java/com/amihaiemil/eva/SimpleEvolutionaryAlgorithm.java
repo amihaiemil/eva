@@ -56,6 +56,11 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
             return false;
         }
     };
+    
+    /**
+     * The way an individual solution selected from its population.
+     */
+    private Selection selection = new DefaultSelection();
 
     private Population initialPopulation;
     /**
@@ -77,34 +82,24 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
                 " number of generations: " + generations);
     }
 
-    /**
-     * Specify the solutions generator used by this algorithm.
-     * @param generator An object that generates a list of solutions.
-     * @return This algorithm.
-     */
     public Eva with(SolutionsGenerator generator) {
         this.solutionsGenerator = generator;
         return this;
     }
 
-    /**
-     * Specify the fitness evaluator used by this algorithm.
-     * @param evaluator An object that knows to evaluate the fitness of a solution.
-     * @return This algorithm.
-     */
     public Eva with(FitnessEvaluator evaluator) {
         this.solutionsEvaluator = evaluator;
         return this;
     }
 
-    /**
-     * Specify additional conditions that have to be met by the chosen solution.
-     * @param additionalCondition The specified condition(s).
-     * @return This algorithm.
-     */
     public Eva with(Condition additionalCondition) {
         this.additionalCondition = additionalCondition;
         return this;
+    }
+
+    public Eva with(Selection selection) {
+    	this.selection = selection;
+    	return this;
     }
 
     /**
@@ -122,7 +117,10 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
             logger.error("No fitness evaluator was specified!");
             throw new IllegalStateException("An evaluator of solutions must be specified!");
         }
-        this.initialPopulation = new Population(this.solutionsEvaluator, solutionsGenerator, populationSize);
+        this.initialPopulation = new Population(
+        		this.solutionsEvaluator, this.solutionsGenerator,
+        		this.selection, this.populationSize);
+        
         this.initialPopulation.evaluateIndividuals();
         Population newPopulation;
         for (int i = 0; i < numberOfGenerations; i++) {

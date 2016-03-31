@@ -29,7 +29,6 @@ package com.amihaiemil.eva;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A population of possible solutions.
@@ -37,14 +36,15 @@ import java.util.Random;
  */
 final class Population {
     private List<Solution> individuals;
-    private Random chance = new Random();
     private FitnessEvaluator evaluator;
     /**
      * Create a population of individuals, with a given size.
+     * @param evaluator The fitness evaluator.
      * @param generator The generator of random solutions.
+     * @param selection The individual Selection algorithm.
      * @param size The size of the population.
      */
-    Population(FitnessEvaluator evaluator, SolutionsGenerator generator, int size) {
+    Population(FitnessEvaluator evaluator, SolutionsGenerator generator, Selection selection, int size) {
         this.individuals = new ArrayList<Solution>();
         for(int i=0;i<size;i++) {
             individuals.add(generator.generateRandomSolution());
@@ -53,10 +53,11 @@ final class Population {
     }
 
     /**
-     * Create a population with no individuals.
+     * Create a population with no individuals and default Selection.
+     * @param evaluator The fitness evaluator.
      */
     Population(FitnessEvaluator evaluator) {
-        this(evaluator, null, 0);
+        this(evaluator, null, new DefaultSelection(), 0);
     }
 
     /**
@@ -72,13 +73,7 @@ final class Population {
      * @return The selected individual.
      */
     Solution selectIndividual() {
-        Solution candidate1 = individuals.get(chance.nextInt(individuals.size()));
-        Solution candidate2 = individuals.get(chance.nextInt(individuals.size()));
-        if(candidate1.getFitness().compareTo(candidate2.getFitness()) == 1) {
-            return candidate1;
-        } else {
-            return candidate2;
-        }
+    	return new DefaultSelection().select(this.individuals);
     }
 
     /**

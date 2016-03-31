@@ -34,6 +34,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Additional conditions evaluation test case.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public class ConditionsTestCase {
