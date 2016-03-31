@@ -27,15 +27,15 @@
  */
 package com.amihaiemil.eva;
 
-import com.amihaiemil.eva.util.BinaryArraySolutionsGenerator;
-import com.amihaiemil.eva.util.FitnessForBackpackEvaluator;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import com.amihaiemil.eva.util.BinaryArraySolutionsGenerator;
+import com.amihaiemil.eva.util.FitnessForBackpack;
+import com.amihaiemil.eva.util.FitnessForBackpackEvaluator;
 
 /**
  * Test cases for {@link Eva} implementations.

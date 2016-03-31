@@ -31,15 +31,15 @@ import com.amihaiemil.eva.Fitness;
 import com.amihaiemil.eva.FitnessEvaluator;
 import com.amihaiemil.eva.Solution;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Each solution for the 'Backpack problem' has to have its fitness evaluated.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class FitnessForBackpackEvaluator implements FitnessEvaluator {
+public final class FitnessForBackpackEvaluator implements FitnessEvaluator {
 
+	/**
+	 * The backpack's capacity defaults to 100.
+	 */
     private long capacity = 100;
     private long[] objectsWeights;
     /**

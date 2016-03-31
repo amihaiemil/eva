@@ -25,41 +25,35 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.util;
+package com.amihaiemil.eva;
 
-import com.amihaiemil.eva.Fitness;
+import java.util.Collection;
+import java.util.Random;
 
 /**
- * Fitness of a solution to the 'Backpack Problem'
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Default-used selection.
+ * @author Mihai Andronache (mihai.andronache@urss.ro)
+ *
  */
-public final class FitnessForBackpack implements Fitness{
-    private long backpackCapacity;
-    private long solutionWeight;
-    FitnessForBackpack(long weight, long backpackCapacity) {
-        this.backpackCapacity = backpackCapacity;
-        this.solutionWeight = weight;
-    }
-
-    public long getWeight() {
-        return this.solutionWeight;
-    }
-    public long getSolutionWeight() {
-        return this.solutionWeight;
-    }
-
-    public boolean isOk() {
-        return solutionWeight > 0 && solutionWeight <= backpackCapacity;
-    }
-
-    public int compareTo(Fitness o) {
-        FitnessForBackpack other = (FitnessForBackpack) o;
-        if(this.solutionWeight > other.getSolutionWeight()) {
-            return -1;
+final class DefaultSelection implements Selection {
+	private Random chance = new Random();
+	/**
+	 * The best out of 2 randomly chosen solutions is returned.
+	 */
+	public Solution select(Collection<Solution> solutions) {
+		if(solutions == null || solutions.size() == 0) {
+			throw new IllegalStateException ("Empty or null collection of solutions!");
+		}
+		int size = solutions.size();
+		Solution[] solArray = new Solution[size];
+		solutions.toArray(solArray);
+		Solution candidate1 = solArray[chance.nextInt(size)];
+        Solution candidate2 = solArray[chance.nextInt(size)];
+        if(candidate1.getFitness().compareTo(candidate2.getFitness()) == 1) {
+            return candidate1;
+        } else {
+            return candidate2;
         }
-        if(this.solutionWeight == other.getSolutionWeight()) {
-            return 0;
-        }
-        return 1;
-    }
+	}
+
 }

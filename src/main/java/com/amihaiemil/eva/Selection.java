@@ -27,45 +27,20 @@
  */
 package com.amihaiemil.eva;
 
+import java.util.Collection;
+
 /**
- * Interface of an evolutionary algorithm implementation.
+ * Interface to be implemented by a class that can select (in whatever way) <br/>
+ * and return a solution from a collection .
  * @author Mihai Andronache (amihaiemil@gmail.com)
+ *
  */
-public interface Eva {
-    /**
-     * Run the algorithm, calculate the solution.
-     * @return The found solution.
-     */
-    Solution calculate();
-
-    /**
-     * It is <b>mandatory</b> to specify a fitness evaluator.
-     * @param evaluator The evaluator that this algorithm works with.
-     * @return This algorithm instance (for fluent usage of with(...) methods).
-     */
-    Eva with(FitnessEvaluator evaluator);
-
-    /**
-     * It is <b>mandatory</b> to specify a solution generator.
-     * @param generator The generator that this algorithm works with.
-     * @return This algorithm instance (for fluent usage of with(...) methods).
-     */
-    Eva with(SolutionsGenerator generator);
-
-    /**
-     * Optionally, you can specify additional stopping conditions that the found solution has
-     * to meet before the algorithm stops.
-     * @param additionalStoppingConditions The added condition(s).
-     * @return This algorithm instance (for fluent usage of with(...) methods).
-     */
-    Eva with(Condition additionalStoppingConditions);
-
-    /**
-     * Optionally, you can specify the way an individual solution is selected from the population <br/>
-     * (i.e. when selecting the parents to create a new solution).
-     * By default, the best out of 2 randomly chosen solution is selected.
-     * @param selection The Selection implementation.
-     * @return This algorithm instance (for fluent usage of with(...) methods).
-     */
-    Eva with(Selection selection);
+public interface Selection {
+	/**
+	 * Selects a Solution from the specified collection.
+	 * @param solutions The collection of solutions.
+	 * @return The selected solution.
+	 * @throws IllegalStateException if the collection is null or empty.
+	 */
+    Solution select(Collection<Solution> solutions);
 }
