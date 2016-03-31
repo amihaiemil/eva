@@ -124,7 +124,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
         this.initialPopulation.evaluateIndividuals();
         Population newPopulation;
         for (int i = 0; i < numberOfGenerations; i++) {
-            newPopulation = new Population(this.solutionsEvaluator);
+            newPopulation = new Population(this.solutionsEvaluator, this.selection);
             for (int j = 0; j < populationSize; j++) {
             	
                 Solution child = initialPopulation.selectIndividual().crossover(
