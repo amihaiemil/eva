@@ -33,8 +33,8 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import com.amihaiemil.eva.backpack.FitnessForBackpackEvaluator;
 import com.amihaiemil.eva.util.BinaryArraySolutionsGenerator;
-import com.amihaiemil.eva.util.FitnessForBackpackEvaluator;
 
 /**
  * Test cases for {@link Eva} implementations.

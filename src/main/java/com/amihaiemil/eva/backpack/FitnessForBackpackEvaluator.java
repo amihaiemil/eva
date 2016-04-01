@@ -25,11 +25,12 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.util;
+package com.amihaiemil.eva.backpack;
 
 import com.amihaiemil.eva.Fitness;
 import com.amihaiemil.eva.FitnessEvaluator;
 import com.amihaiemil.eva.Solution;
+import com.amihaiemil.eva.util.NumericalRepresentation;
 
 /**
  * Each solution for the 'Backpack problem' has to have its fitness evaluated.

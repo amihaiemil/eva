@@ -25,43 +25,47 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.util;
+package com.amihaiemil.eva.backpack;
 
 import com.amihaiemil.eva.Fitness;
+import com.amihaiemil.eva.FitnessEvaluator;
+import com.amihaiemil.eva.Solution;
+import com.amihaiemil.eva.backpack.FitnessForBackpackEvaluator;
+import com.amihaiemil.eva.util.BinaryArraySolution;
+import com.amihaiemil.eva.util.NumericalRepresentation;
+
 import org.junit.Test;
+
+import java.util.Random;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for {@link FitnessForBackpack}
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class FitnessForBackpackTestCase {
+public class FitnessForBackbackEvaluatorTestCase {
     /**
-     * The Fitness can tell if it's ok or not.
+     * {@link FitnessForBackpackEvaluator} can evaluate the Fitness of a Solution.
      */
     @Test
-    public void isFitnessOkOrNot() {
-        Fitness fitness = new FitnessForBackpack(56, 100);
-        assertTrue(fitness.isOk());
-        fitness = new FitnessForBackpack(150, 100);
-        assertFalse(fitness.isOk());
-    }
+    public void evaluatesFitnessCorrectly() {
+        FitnessEvaluator evaluator = new FitnessForBackpackEvaluator(new long[]{1,2,100});
+        NumericalRepresentation rep1 = new NumericalRepresentation();
+        rep1.addNumber(1);
+        rep1.addNumber(0);
+        rep1.addNumber(1);
+        Solution solution = new BinaryArraySolution(new Random());
+        solution.setRepresentation(rep1);
+        Fitness fitness1 = evaluator.calculateFitnessForSolution(solution);
+        assertFalse(fitness1.isOk());
 
-    /**
-     * A Fitness can compare itself to another Fitness.
-     */
-    @Test
-    public void comparesItself() {
-        Fitness fitness1 = new FitnessForBackpack(56, 100);
-        Fitness fitness2 = new FitnessForBackpack(90, 100);
-        Fitness fitness3 = new FitnessForBackpack(101, 100);
-        Fitness fitness4 = new FitnessForBackpack(56, 100);
-
-        assertTrue(fitness1.compareTo(fitness2) == 1);
-        assertTrue(fitness2.compareTo(fitness1) == -1);
-        assertTrue(fitness2.compareTo(fitness3) == 1);
-        assertTrue(fitness1.compareTo(fitness4) == 0);
+        NumericalRepresentation rep2 = new NumericalRepresentation();
+        rep2.addNumber(1);
+        rep2.addNumber(1);
+        rep2.addNumber(0);
+        solution.setRepresentation(rep2);
+        Fitness fitness2 = evaluator.calculateFitnessForSolution(solution);
+        assertTrue(fitness2.isOk());
     }
 }
