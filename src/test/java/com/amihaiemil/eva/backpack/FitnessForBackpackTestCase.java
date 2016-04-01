@@ -25,41 +25,45 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.util;
+package com.amihaiemil.eva.backpack;
 
 import com.amihaiemil.eva.Fitness;
+import com.amihaiemil.eva.backpack.FitnessForBackpack;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Fitness of a solution to the 'Backpack Problem'
+ * Tests for {@link FitnessForBackpack}
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public final class FitnessForBackpack implements Fitness{
-    private long backpackCapacity;
-    private long solutionWeight;
-    FitnessForBackpack(long weight, long backpackCapacity) {
-        this.backpackCapacity = backpackCapacity;
-        this.solutionWeight = weight;
+public class FitnessForBackpackTestCase {
+    /**
+     * The Fitness can tell if it's ok or not.
+     */
+    @Test
+    public void isFitnessOkOrNot() {
+        Fitness fitness = new FitnessForBackpack(56, 100);
+        assertTrue(fitness.isOk());
+        fitness = new FitnessForBackpack(150, 100);
+        assertFalse(fitness.isOk());
     }
 
-    public long getWeight() {
-        return this.solutionWeight;
-    }
-    public long getSolutionWeight() {
-        return this.solutionWeight;
-    }
+    /**
+     * A Fitness can compare itself to another Fitness.
+     */
+    @Test
+    public void comparesItself() {
+        Fitness fitness1 = new FitnessForBackpack(56, 100);
+        Fitness fitness2 = new FitnessForBackpack(90, 100);
+        Fitness fitness3 = new FitnessForBackpack(101, 100);
+        Fitness fitness4 = new FitnessForBackpack(56, 100);
 
-    public boolean isOk() {
-        return solutionWeight > 0 && solutionWeight <= backpackCapacity;
-    }
-
-    public int compareTo(Fitness o) {
-        FitnessForBackpack other = (FitnessForBackpack) o;
-        if(this.solutionWeight > other.getSolutionWeight()) {
-            return -1;
-        }
-        if(this.solutionWeight == other.getSolutionWeight()) {
-            return 0;
-        }
-        return 1;
+        assertTrue(fitness1.compareTo(fitness2) == 1);
+        assertTrue(fitness2.compareTo(fitness1) == -1);
+        assertTrue(fitness2.compareTo(fitness3) == 1);
+        assertTrue(fitness1.compareTo(fitness4) == 0);
     }
 }
