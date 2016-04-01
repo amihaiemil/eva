@@ -68,4 +68,12 @@ public interface Eva {
      * @return This algorithm instance (for fluent usage of with(...) methods).
      */
     Eva with(Selection selection);
+    
+    /**
+     * Optionally, you can specify how the best solution is selected from the population. <br/>
+     * By default, the solution with the highest fitness is considered the best.
+     * @param bestSelection The BestSelection implementation.
+     * @return This algorithm instance (for fluent usage of with(...) methods).
+     */
+    Eva with(BestSelection bestSelection);
 }

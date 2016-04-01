@@ -27,16 +27,32 @@
  */
 package com.amihaiemil.eva;
 
+import java.util.Collection;
+
 /**
- * Fitness of a solution found by the algorithm.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Default-used best selection.
+ * @author Mihai Andronache (mihai.andronache@urss.ro)
+ *
  */
-public interface Fitness extends Comparable<Fitness>{
-    /**
-     * Indicates whether this fitness is OK. <br/>
-     * E.g. If it is not OK, then it's not even worth comparing it to others, since
-     * we know that a solution with this fitness is not good.
-     * @return true if this fitness is considered OK, or false otherwise.
-     */
-    boolean isOk();
+public class DefaultBestSelection implements BestSelection {
+
+	/**
+	 * The best solution is selected based on fitness.
+	 * @param solutions The collection of solutions.
+	 * @return The solution with the best fitness.
+	 */
+	public Solution selectBest(Collection<Solution> solutions) {
+		if(solutions == null || solutions.size() == 0) {
+			throw new IllegalStateException ("Empty or null collection of solutions!");
+		}
+		Solution best = solutions.iterator().next();
+        for(Solution sol : solutions) {
+            if(sol.getFitness().isOk() &&
+            		sol.getFitness().compareTo(best.getFitness()) == 1) {
+                best = sol;
+            }
+        }
+        return best;
+	}
+
 }

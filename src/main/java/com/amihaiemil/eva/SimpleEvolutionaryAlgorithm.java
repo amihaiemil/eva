@@ -61,7 +61,12 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
      * The way an individual solution selected from its population.
      */
     private Selection selection = new DefaultSelection();
-
+    
+    /**
+     * The way the best individual is found in its population.
+     */
+    private BestSelection bestSelection = new DefaultBestSelection();
+    
     private Population initialPopulation;
     /**
      * Default constructor with default values for population size and mutation probability.
@@ -102,6 +107,11 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
     	return this;
     }
 
+    public Eva with(BestSelection bestSelection) {
+    	this.bestSelection = bestSelection;
+    	return this;
+    }
+    
     /**
      * Calculates the solution. Does <b>numberOfGenerations</b> x <b>populationSize</b>
      * iterations or more, until the additional stopping conditions are met (if any are specified).
@@ -119,12 +129,12 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
         }
         this.initialPopulation = new Population(
         		this.solutionsEvaluator, this.solutionsGenerator,
-        		this.selection, this.populationSize);
+        		this.selection, this.bestSelection, this.populationSize);
         
         this.initialPopulation.evaluateIndividuals();
         Population newPopulation;
         for (int i = 0; i < numberOfGenerations; i++) {
-            newPopulation = new Population(this.solutionsEvaluator, this.selection);
+            newPopulation = new Population(this.solutionsEvaluator, this.selection, this.bestSelection);
             for (int j = 0; j < populationSize; j++) {
             	
                 Solution child = initialPopulation.selectIndividual().crossover(

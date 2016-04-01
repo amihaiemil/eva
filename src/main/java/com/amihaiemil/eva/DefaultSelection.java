@@ -39,6 +39,8 @@ final class DefaultSelection implements Selection {
 	private Random chance = new Random();
 	/**
 	 * The best out of 2 randomly chosen solutions is returned.
+	 * @param solutions The collection from which a Solution is selected.
+	 * @return The selected solution.
 	 */
 	public Solution select(Collection<Solution> solutions) {
 		if(solutions == null || solutions.size() == 0) {
