@@ -38,6 +38,7 @@ final class Population {
     private List<Solution> individuals;
     private FitnessEvaluator evaluator;
     private Selection selection;
+    private BestSelection bestSelection;
     /**
      * Create a population of individuals, with a given size.
      * @param evaluator The fitness evaluator.
@@ -45,13 +46,20 @@ final class Population {
      * @param selection The individual Selection algorithm.
      * @param size The size of the population.
      */
-    Population(FitnessEvaluator evaluator, SolutionsGenerator generator, Selection selection, int size) {
+    Population(
+    	FitnessEvaluator evaluator,
+    	SolutionsGenerator generator,
+    	Selection selection,
+    	BestSelection bestSelection,
+    	int size
+    ) {
         this.individuals = new ArrayList<Solution>();
         for(int i=0;i<size;i++) {
             individuals.add(generator.generateRandomSolution());
         }
         this.evaluator = evaluator;
         this.selection = selection;
+        this.bestSelection = bestSelection;
     }
 
     /**
@@ -59,8 +67,12 @@ final class Population {
      * @param evaluator The fitness evaluator.
      * @param selection The individual Selection algorithm.
      */
-    Population(FitnessEvaluator evaluator, Selection selection) {
-        this(evaluator, null, selection, 0);
+    Population(
+    	FitnessEvaluator evaluator,
+    	Selection selection,
+    	BestSelection bestSelection
+    ) {
+        this(evaluator, null, selection, bestSelection, 0);
     }
 
     /**
@@ -84,14 +96,7 @@ final class Population {
      * @return The best individual based on fitness.
      */
     Solution bestIndividual() {
-        Solution best = individuals.get(0);
-        for(int i=1;i<individuals.size();i++) {
-            if(individuals.get(i).getFitness().isOk() &&
-                    individuals.get(i).getFitness().compareTo(best.getFitness()) == 1) {
-                best = individuals.get(i);
-            }
-        }
-        return best;
+        return this.bestSelection.selectBest(this.individuals);
     }
 
     /**

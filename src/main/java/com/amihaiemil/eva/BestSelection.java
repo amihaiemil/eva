@@ -27,16 +27,20 @@
  */
 package com.amihaiemil.eva;
 
+import java.util.Collection;
+
 /**
- * Fitness of a solution found by the algorithm.
+ * Interface to be implemented by a class that can select <br/>
+ * and return the best solution from a collection .
  * @author Mihai Andronache (amihaiemil@gmail.com)
+ *
  */
-public interface Fitness extends Comparable<Fitness>{
-    /**
-     * Indicates whether this fitness is OK. <br/>
-     * E.g. If it is not OK, then it's not even worth comparing it to others, since
-     * we know that a solution with this fitness is not good.
-     * @return true if this fitness is considered OK, or false otherwise.
-     */
-    boolean isOk();
+public interface BestSelection {
+	/**
+	 * Selects the best Solution from the specified collection.
+	 * @param solutions The collection of solutions.
+	 * @return The best solution.
+	 * @throws IllegalStateException if the collection is null or empty.
+	 */
+    Solution selectBest(Collection<Solution> solutions);
 }
