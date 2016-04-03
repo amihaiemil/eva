@@ -35,13 +35,15 @@ import org.slf4j.LoggerFactory;
 /**
  * Simple evolutionary algorithm implementation.
  * No threads, special stopping conditions or error range.
+ * This class is immutable and thread safe.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public final class SimpleEvolutionaryAlgorithm implements Eva{
     private static final Logger logger = LoggerFactory.getLogger(SimpleEvolutionaryAlgorithm.class);
+    private static final Random random = new Random();
+
     private int populationSize;
     private int numberOfGenerations;
-    private Random random = new Random();
     private double crossoverProbability = random.nextDouble();
     private double mutationProbability = random.nextDouble();
 
@@ -67,7 +69,6 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
      */
     private BestSelection bestSelection = new DefaultBestSelection();
     
-    private Population initialPopulation;
     /**
      * Default constructor with default values for population size and mutation probability.
      */
@@ -87,34 +88,75 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
                 " number of generations: " + generations);
     }
 
-    public Eva with(SolutionsGenerator generator) {
+    /**
+     * Constructor (used internally to provide immutability).
+     * @param population Size of the initial population.
+     * @param generations Number of generations.
+     * @param crossoverProbability Crossover probability.
+     * @param mutationProbability Mutation probability.
+     * @param generator Generator of solutions.
+     * @param evaluator Evaluator of solutions.
+     * @param conditions Additional stopping conditions.
+     * @param selection Selection method.
+     * @param bestSelection Final result (best solution) selection method.
+     */
+    private SimpleEvolutionaryAlgorithm(
+        int population, int generations,
+        double crossoverProbability, double mutationProbability,
+        SolutionsGenerator generator,
+        FitnessEvaluator evaluator,
+        Condition conditions,
+        Selection selection,
+        BestSelection bestSelection) {
+        this.populationSize = population;
+        this.numberOfGenerations = generations;
+        this.crossoverProbability = crossoverProbability;
+        this.mutationProbability = mutationProbability;
         this.solutionsGenerator = generator;
-        return this;
+        this.solutionsEvaluator = evaluator;
+        this.additionalCondition = conditions;
+        this.selection = selection;
+        this.bestSelection = bestSelection;
+    }
+
+    public Eva with(SolutionsGenerator generator) {
+        return new SimpleEvolutionaryAlgorithm(
+            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
+            this.mutationProbability, generator, this.solutionsEvaluator, this.additionalCondition,
+            this.selection, this.bestSelection);
     }
 
     public Eva with(FitnessEvaluator evaluator) {
-        this.solutionsEvaluator = evaluator;
-        return this;
+        return new SimpleEvolutionaryAlgorithm(
+            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
+            this.mutationProbability, this.solutionsGenerator, evaluator, this.additionalCondition,
+            this.selection, this.bestSelection);
     }
 
     public Eva with(Condition additionalCondition) {
-        this.additionalCondition = additionalCondition;
-        return this;
+        return new SimpleEvolutionaryAlgorithm(
+            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
+            this.mutationProbability, this.solutionsGenerator, this.solutionsEvaluator, additionalCondition,
+            this.selection, this.bestSelection);
     }
 
     public Eva with(Selection selection) {
-    	this.selection = selection;
-    	return this;
+        return new SimpleEvolutionaryAlgorithm(
+            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
+            this.mutationProbability, this.solutionsGenerator, this.solutionsEvaluator,
+            this.additionalCondition, selection, this.bestSelection);
     }
 
     public Eva with(BestSelection bestSelection) {
-    	this.bestSelection = bestSelection;
-    	return this;
+        return new SimpleEvolutionaryAlgorithm(
+            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
+            this.mutationProbability, this.solutionsGenerator, this.solutionsEvaluator,
+            this.additionalCondition, this.selection, bestSelection);
     }
     
     /**
      * Calculates the solution. Does <b>numberOfGenerations</b> x <b>populationSize</b>
-     * iterations or more, until the additional stopping conditions are met (if any are specified).
+     * iterations or less, if the stopping conditions are met.
      * @return A solution.
      */
     public Solution calculate() {
@@ -127,11 +169,11 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
             logger.error("No fitness evaluator was specified!");
             throw new IllegalStateException("An evaluator of solutions must be specified!");
         }
-        this.initialPopulation = new Population(
+        Population initialPopulation = new Population(
         		this.solutionsEvaluator, this.solutionsGenerator,
         		this.selection, this.bestSelection, this.populationSize);
-        
-        this.initialPopulation.evaluateIndividuals();
+
+        initialPopulation.evaluateIndividuals();
         Population newPopulation;
         for (int i = 0; i < numberOfGenerations; i++) {
             newPopulation = new Population(this.solutionsEvaluator, this.selection, this.bestSelection);
