@@ -6,7 +6,7 @@ import com.amihaiemil.eva.Eva;
  * Asynchronous thread for running an evolutionary algorithm.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class AsynchronousEvaThread implements Runnable {
+public final class AsynchronousEvaThread implements Runnable {
     private SolutionCallback callback;
     private Eva algorithm;
     private String threadName;

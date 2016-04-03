@@ -31,7 +31,7 @@ import java.util.Collection;
 import java.util.Random;
 
 /**
- * Default-used selection.
+ * Default selection.
  * @author Mihai Andronache (mihai.andronache@urss.ro)
  *
  */

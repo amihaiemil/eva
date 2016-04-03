@@ -54,7 +54,7 @@ public interface Eva {
 
     /**
      * Optionally, you can specify additional stopping conditions that the found solution has
-     * to meet before the algorithm stops.
+     * to meet.
      * @param additionalStoppingConditions The added condition(s).
      * @return A new, copied instance, of this algorithm, with the specified Condition.
      */

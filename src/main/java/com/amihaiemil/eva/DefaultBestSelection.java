@@ -30,7 +30,7 @@ package com.amihaiemil.eva;
 import java.util.Collection;
 
 /**
- * Default-used best selection.
+ * Default best selection.
  * @author Mihai Andronache (mihai.andronache@urss.ro)
  *
  */

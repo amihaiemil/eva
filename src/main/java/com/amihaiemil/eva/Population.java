@@ -63,9 +63,10 @@ final class Population {
     }
 
     /**
-     * Create a population with no individuals and default Selection.
+     * Create a population with no individuals.
      * @param evaluator The fitness evaluator.
      * @param selection The individual Selection algorithm.
+     * @param bestSelection Selection of the best algorithm.
      */
     Population(
     	FitnessEvaluator evaluator,
