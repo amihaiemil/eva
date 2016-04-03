@@ -25,22 +25,19 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva;
+package com.amihaiemil.eva.concurrency;
 
-import java.util.Collection;
+import com.amihaiemil.eva.Solution;
 
 /**
- * Interface to be implemented by a class that can select
- * and return the best solution from a collection .
+ * SolutionCallback for a thread. What should happen with the solution
+ * after the thread finishes running the evolutionary algorithm?
  * @author Mihai Andronache (amihaiemil@gmail.com)
- *
  */
-public interface BestSelection {
-	/**
-	 * Selects the best Solution from the specified collection.
-	 * @param solutions The collection of solutions.
-	 * @return The best solution.
-	 * @throws IllegalStateException if the collection is null or empty.
-	 */
-    Solution selectBest(Collection<Solution> solutions);
+public interface SolutionCallback {
+    /**
+     * Logic to be performed on the found solution.
+     * @param result The algorithm's final solution.
+     */
+    void execute(Solution result);
 }

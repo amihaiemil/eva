@@ -30,7 +30,7 @@ package com.amihaiemil.eva;
 import java.util.Collection;
 
 /**
- * Interface to be implemented by a class that can select (in whatever way) <br/>
+ * Interface to be implemented by a class that can select (in whatever way)
  * and return a solution from a collection .
  * @author Mihai Andronache (amihaiemil@gmail.com)
  *

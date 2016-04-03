@@ -41,14 +41,14 @@ public interface Eva {
     /**
      * It is <b>mandatory</b> to specify a fitness evaluator.
      * @param evaluator The evaluator that this algorithm works with.
-     * @return This algorithm instance (for fluent usage of with(...) methods).
+     * @return A new, copied instance, of this algorithm, with the specified FitnessEvaluator.
      */
     Eva with(FitnessEvaluator evaluator);
 
     /**
      * It is <b>mandatory</b> to specify a solution generator.
      * @param generator The generator that this algorithm works with.
-     * @return This algorithm instance (for fluent usage of with(...) methods).
+     * @return A new, copied instance, of this algorithm, with the specified SolutionsGenerator.
      */
     Eva with(SolutionsGenerator generator);
 
@@ -56,24 +56,24 @@ public interface Eva {
      * Optionally, you can specify additional stopping conditions that the found solution has
      * to meet before the algorithm stops.
      * @param additionalStoppingConditions The added condition(s).
-     * @return This algorithm instance (for fluent usage of with(...) methods).
+     * @return A new, copied instance, of this algorithm, with the specified Condition.
      */
     Eva with(Condition additionalStoppingConditions);
 
     /**
-     * Optionally, you can specify the way an individual solution is selected from the population <br/>
+     * Optionally, you can specify the way an individual solution is selected from the population
      * (i.e. when selecting the parents to create a new solution).
      * By default, the best out of 2 randomly chosen solution is selected.
      * @param selection The Selection implementation.
-     * @return This algorithm instance (for fluent usage of with(...) methods).
+     * @return A new, copied instance, of this algorithm, with the specified Selection.
      */
     Eva with(Selection selection);
     
     /**
-     * Optionally, you can specify how the best solution is selected from the population. <br/>
+     * Optionally, you can specify how the best solution is selected from the population.
      * By default, the solution with the highest fitness is considered the best.
      * @param bestSelection The BestSelection implementation.
-     * @return This algorithm instance (for fluent usage of with(...) methods).
+     * @return A new, copied instance, of this algorithm, with the specified BestSelection.
      */
     Eva with(BestSelection bestSelection);
 }

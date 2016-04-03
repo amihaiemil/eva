@@ -75,9 +75,7 @@ public class BinaryArraySolution extends Solution {
             }
             return partner;
         }
-    	
-    	
-    	
+
     }
 
 }
