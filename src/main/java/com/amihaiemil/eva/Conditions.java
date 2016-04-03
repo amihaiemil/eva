@@ -31,6 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,25 +51,37 @@ public final class Conditions implements Condition {
     }
 
     /**
+     * Constructor to provide immutability.
+     * @param initialCondition The initial condition.
+     * @param conditions The conditions we have so far.
+     * @param nextCondition The added condition.
+     */
+    private Conditions(Condition initialCondition, List<AddedCondition> conditions, AddedCondition nextCondition) {
+       this.initialCondition = initialCondition;
+        this.addedConditions = new ArrayList<AddedCondition>();
+        for(AddedCondition c : conditions) {
+            this.addedConditions.add(c);
+        }
+        this.addedConditions.add(nextCondition);
+    }
+    /**
      * Add a condition to the list with an 'and' operator.
      * @param condition Added condition.
-     * @return this instance of conditions.
+     * @return A new, copied, instance of this, with the specified condition added.
      */
     public Conditions and(Condition condition) {
         logger.info("Adding stopping condition with AND operator: AND " + condition.toString());
-        this.addedConditions.add(new AddedCondition("&&", condition));
-        return this;
+        return new Conditions(this.initialCondition, this.addedConditions, new AddedCondition("&&", condition));
     }
 
     /**
      * Add a condition to the list with an 'or' operator.
      * @param condition Added condition.
-     * @return this instance of conditions.
+     * @return A new, copied, instance of this, with the specified condition added.
      */
     public Conditions or(Condition condition) {
         logger.info("Adding stopping condition with OR operator: OR " + condition.toString());
-        this.addedConditions.add(new AddedCondition("||", condition));
-        return this;
+        return new Conditions(this.initialCondition, this.addedConditions, new AddedCondition("||", condition));
     }
 
     public boolean passed(Solution s) {
