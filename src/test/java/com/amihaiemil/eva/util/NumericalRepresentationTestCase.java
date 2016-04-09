@@ -44,7 +44,7 @@ public class NumericalRepresentationTestCase {
     public void addsNumber() {
         NumericalRepresentation representation = new NumericalRepresentation();
         assertTrue(representation.getSize() == 0);
-        representation.addNumber(5);
+        representation = representation.addNumber(5);
         assertTrue(representation.getSize() == 1);
     }
 
@@ -56,7 +56,7 @@ public class NumericalRepresentationTestCase {
         NumericalRepresentation representation = new NumericalRepresentation(Arrays.asList(1, 2, 3));
         assertTrue(representation.getSize() == 3);
         assertTrue(representation.get(1) == 2);
-        representation.replaceAt(2, 4);
+        representation = representation.replaceAt(2, 4);
         assertTrue(representation.getSize() == 3);
         assertTrue(representation.get(2) == 4);
     }

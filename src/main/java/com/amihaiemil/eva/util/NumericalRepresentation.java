@@ -34,6 +34,7 @@ import java.util.List;
 
 /**
  * Numerical representation of a Solution.
+ * This class is immutable.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public class NumericalRepresentation implements Representation {
@@ -43,19 +44,37 @@ public class NumericalRepresentation implements Representation {
         this(new ArrayList<Integer>());
     }
     public NumericalRepresentation(List<Integer> rep) {
-        this.numbers = rep;
+        this.numbers = new ArrayList<Integer>();
+        for(int i=0;i<rep.size();i++) {
+            this.numbers.add(rep.get(i));
+        }
     }
 
-    public void addNumber(int number) {
-        this.numbers.add(number);
+    /**
+     * Returns a new NumericalRepresentation with the added number.
+     * @param number The number to be added to the numerical representation.
+     * @return NumericalRepresentation instance.
+     */
+    public NumericalRepresentation addNumber(int number) {
+        List<Integer> withNumber = new ArrayList<Integer>(this.numbers);
+        withNumber.add(number);
+        return new NumericalRepresentation(withNumber);
     }
 
     public int get(int index) {
         return this.numbers.get(index);
     }
 
-    public void replaceAt(int index, int number) {
-        numbers.set(index, number);
+    /**
+     * Returns a new NumericalRepresentation with the replaced index.
+     * @param index The index of the value to be replaced by number.
+     * @param number The number to replace the value found at index.
+     * @return NumericalRepresentation instance.
+     */
+    public NumericalRepresentation replaceAt(int index, int number) {
+        List<Integer> withNumberReplaced = new ArrayList<Integer>(this.numbers);
+        withNumberReplaced.set(index, number);
+        return new NumericalRepresentation(withNumberReplaced);
     }
 
     public int getSize() {

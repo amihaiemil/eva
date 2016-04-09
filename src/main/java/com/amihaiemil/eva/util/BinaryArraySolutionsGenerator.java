@@ -49,7 +49,7 @@ public class BinaryArraySolutionsGenerator implements SolutionsGenerator {
     public Solution generateRandomSolution() {
         NumericalRepresentation representation = new NumericalRepresentation();
         for(int i=0;i<size;i++) {
-            representation.addNumber(r.nextInt(2));
+            representation = representation.addNumber(r.nextInt(2));
         }
         Solution generated = new BinaryArraySolution(new Random());
         generated.setRepresentation(representation);
