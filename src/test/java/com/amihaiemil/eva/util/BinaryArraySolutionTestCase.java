@@ -51,12 +51,13 @@ public class BinaryArraySolutionTestCase {
 
         Solution testSolution = new BinaryArraySolution(mockChance);
         NumericalRepresentation binaryRepresentation = new NumericalRepresentation();
-        binaryRepresentation.addNumber(0);
-        binaryRepresentation.addNumber(1);
-        binaryRepresentation.addNumber(1);
+        binaryRepresentation = binaryRepresentation.addNumber(0);
+        binaryRepresentation = binaryRepresentation.addNumber(1);
+        binaryRepresentation = binaryRepresentation.addNumber(1);
         testSolution.setRepresentation(binaryRepresentation);
 
         testSolution.mutate(0.5);
+        binaryRepresentation = (NumericalRepresentation) testSolution.getRepresentation();
         assertTrue(binaryRepresentation.get(0) == 1);
         assertTrue(binaryRepresentation.get(1) == 0);
         assertTrue(binaryRepresentation.get(2) == 0);

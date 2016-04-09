@@ -47,9 +47,10 @@ public class BinaryArraySolution extends Solution {
         NumericalRepresentation representation = (NumericalRepresentation) this.getRepresentation();
         for(int i=0;i<representation.getSize();i++) {
             if(chance.nextDouble() < pm) {
-                representation.replaceAt(i, 1-representation.get(i));
+                representation = representation.replaceAt(i, 1-representation.get(i));
             }
         }
+        this.setRepresentation(representation);
     }
 
     @Override
@@ -62,10 +63,10 @@ public class BinaryArraySolution extends Solution {
             NumericalRepresentation offSpringRepresentation = new NumericalRepresentation();
             int point = chance.nextInt(representation.getSize());
             for(int i=0;i<point;i++) {
-                offSpringRepresentation.addNumber(representation.get(i));
+                offSpringRepresentation = offSpringRepresentation.addNumber(representation.get(i));
             }
             for(int i=point;i<representation.getSize();i++) {
-                offSpringRepresentation.addNumber(partnerRepresentation.get(i));
+                offSpringRepresentation = offSpringRepresentation.addNumber(partnerRepresentation.get(i));
             }
             offspring.setRepresentation(offSpringRepresentation);
             return offspring;
