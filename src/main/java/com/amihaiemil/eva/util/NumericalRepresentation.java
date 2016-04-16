@@ -40,14 +40,37 @@ import java.util.List;
 public class NumericalRepresentation implements Representation {
     private List<Integer> numbers;
 
+    /**
+     * Constructor.
+     */
     public NumericalRepresentation() {
         this(new ArrayList<Integer>());
     }
+    /**
+     * Constructor.
+     * @param rep Integers of this representation (list).
+     */
     public NumericalRepresentation(List<Integer> rep) {
         this.numbers = new ArrayList<Integer>();
         for(int i=0;i<rep.size();i++) {
             this.numbers.add(rep.get(i));
         }
+    }
+    /**
+     * Constructor.
+     * @param rep Integers (digits 0 to 9) of this representation (string).
+     */
+    public NumericalRepresentation(String rep) {
+    	this.numbers = new ArrayList<Integer>();
+    	for(int i=0;i<rep.length();i++) {
+    		this.numbers.add(
+    			Integer.parseInt(
+    				String.valueOf(
+    					rep.charAt(i)
+    				)
+    			)
+    		);
+    	}
     }
 
     /**

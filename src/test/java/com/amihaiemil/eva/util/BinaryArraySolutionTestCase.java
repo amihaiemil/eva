@@ -84,6 +84,24 @@ public class BinaryArraySolutionTestCase {
         assertTrue(offspringRepresentation.get(2) == 1);
         assertTrue(offspringRepresentation.get(3) == 1);
     }
+
+    /**
+     * {@link BinaryArraySolution} can be created from a binary representation.
+     */
+    @Test
+    public void solutionFromRepresentation() {
+        Solution testSolution= new BinaryArraySolution(new NumericalRepresentation("0110"));
+        assertTrue(testSolution.getRepresentation() != null);
+    }
+    
+    /**
+     * {@link BinaryArraySolution} cannot be created form a non-binary representation.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void solutionFromNonBinaryRepresentation() {
+        new BinaryArraySolution(new NumericalRepresentation("12345"));
+    }
+
 }
 
 
