@@ -46,6 +46,8 @@ public class NumericalRepresentationTestCase {
         assertTrue(representation.getSize() == 0);
         representation = representation.addNumber(5);
         assertTrue(representation.getSize() == 1);
+        assertTrue(representation.get(0) == 5);
+
     }
 
     /**
@@ -59,6 +61,16 @@ public class NumericalRepresentationTestCase {
         representation = representation.replaceAt(2, 4);
         assertTrue(representation.getSize() == 3);
         assertTrue(representation.get(2) == 4);
+    }
+    
+    /**
+     * A NumericalRepresentation can be created from a string of digits.
+     */
+    @Test
+    public void constructsFromString() {
+    	NumericalRepresentation representation = new NumericalRepresentation("123456");
+    	assertTrue(representation.getSize() == 6);
+    	assertTrue(representation.get(3) == 4);
     }
 
 }

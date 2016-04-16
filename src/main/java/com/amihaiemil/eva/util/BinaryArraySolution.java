@@ -27,17 +27,33 @@
  */
 package com.amihaiemil.eva.util;
 
-import com.amihaiemil.eva.Solution;
-
 import java.util.Random;
+
+import com.amihaiemil.eva.Solution;
 
 /**
  * A Solution represented on an array of 0 and 1 (NumericalRepresentation is used).
  * @author Mihai Andronache (amihaiemil@gmail.com).
  */
 public class BinaryArraySolution extends Solution {
-    private Random chance = new Random();
+    private Random chance;
 
+    public BinaryArraySolution() {
+    	this.chance = new Random();
+    }
+    
+    public BinaryArraySolution(NumericalRepresentation representation) {
+    	this.chance = new Random();
+    	for(int i=0;i<representation.getSize();i++) {
+    		if(representation.get(i) != 0 && representation.get(i) != 1) {
+    			throw new IllegalArgumentException(
+    				"Expected a numerical representation with 0s and 1s only!"
+    			);
+    		}
+    	}
+    	this.setRepresentation(representation);
+    }
+    
     public BinaryArraySolution(Random chance) {
         this.chance = chance;
     }

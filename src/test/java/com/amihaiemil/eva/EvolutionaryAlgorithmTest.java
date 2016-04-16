@@ -74,7 +74,7 @@ public class EvolutionaryAlgorithmTest {
      */
     @Test
     public void asyncSimpleEvaFindsASolution() throws InterruptedException, ExecutionException {
-        // The algorithm should stop only when the found solution is acceptable.
+        // The algorithm should stop  when the found solution is acceptable.
         final Condition solutionIsAcceptable = new Condition() {
             public boolean passed(Solution solution) {
                 return solution.isAcceptable();
