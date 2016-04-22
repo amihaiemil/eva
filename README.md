@@ -18,3 +18,7 @@ To start using it, simply add the following to your ``pom.xml``:
 ```
 
 More at http://eva.amihaiemil.com
+
+and 
+
+http://www.amihaiemil.com/projects/2016/04/20/project-eva.html
