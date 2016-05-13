@@ -158,6 +158,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
      * Calculates the solution. Does <b>numberOfGenerations</b> x <b>populationSize</b>
      * iterations or less, if the stopping conditions are met.
      * @return A solution.
+     * @throws IllegalStateException if the solutions generator or the solutions evaluator is missing.
      */
     public Solution calculate() {
         logger.info("Running the evolutionary algorithm...");
