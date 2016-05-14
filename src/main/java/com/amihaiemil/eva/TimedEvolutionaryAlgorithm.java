@@ -28,14 +28,16 @@
 
 package com.amihaiemil.eva;
 
-import com.amihaiemil.eva.concurrency.Stopwatch;
-import com.amihaiemil.eva.concurrency.StopwatchException;
+import com.amihaiemil.eva.concurrency.*;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
- * Execution of an algorithm may last a long time, possibly indicating that a solution cannot be found for the given </br>
- * input and conditions. This decorator times the execution, in order to avoid interminable or too long runs.
+ * This decorator times the execution, in order to avoid too long runs.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- *
  */
 public class TimedEvolutionaryAlgorithm implements Eva {
 
@@ -66,11 +68,32 @@ public class TimedEvolutionaryAlgorithm implements Eva {
 	 * @throws StopwatchException if the specified miliseconds passed and the algorithm didn't finish.
 	 */
 	public Solution calculate() {
-		Stopwatch timer = new Stopwatch(this.miliseconds, this.algorithm.getClass().getName());
-		timer.start();
-		Solution found = algorithm.calculate();
-		timer.stop();
-		return found;
+        String algorithmName = this.algorithm.getClass().getName();
+		Stopwatch timer = new Stopwatch(this.miliseconds);
+        ExecutorService timerExecutorService = Executors.newSingleThreadExecutor();
+        StopwatchSolutionCallback callback = new StopwatchSolutionCallback(timerExecutorService);
+        AsynchronousEvaThread asyncEva = new AsynchronousEvaThread(
+            this.algorithm,
+            callback,
+            algorithmName
+        );
+
+        Future timerFuture = timerExecutorService.submit(timer);
+        asyncEva.start();
+        try {
+            timerFuture.get();
+        } catch (InterruptedException e) {
+            asyncEva.stop();
+            return callback.getFound();
+        } catch (ExecutionException e) {
+            if(e.getMessage().contains("interrupted")) {
+                return callback.getFound();
+            } else {
+                asyncEva.stop();
+                throw new StopwatchException("Stopwatch exception!", e);
+            }
+        }
+        return callback.getFound();
 	}
 
 	public Eva with(FitnessEvaluator evaluator) {
