@@ -32,7 +32,7 @@ package com.amihaiemil.eva;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  *
  */
-class StopwatchException extends RuntimeException {
+public class StopwatchException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
