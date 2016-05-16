@@ -25,14 +25,14 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.amihaiemil.eva.concurrency;
+package com.amihaiemil.eva;
 
 /**
  * Exception thrown by {@link Stopwatch} when the time has run out.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  *
  */
-public class StopwatchException extends RuntimeException {
+class StopwatchException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

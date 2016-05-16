@@ -26,7 +26,7 @@
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.amihaiemil.eva.concurrency;
+package com.amihaiemil.eva;
 
 
 /**
@@ -34,7 +34,7 @@ package com.amihaiemil.eva.concurrency;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  *
  */
-public class Stopwatch implements Runnable {
+class Stopwatch implements Runnable {
 	private Thread watch;
 	private int millis;
 	
