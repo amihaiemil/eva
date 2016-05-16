@@ -25,48 +25,27 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package  com.amihaiemil.eva;
 
-package com.amihaiemil.eva.concurrency;
+import com.amihaiemil.eva.concurrency.SolutionCallback;
 
-import com.amihaiemil.eva.Eva;
+import java.util.concurrent.ExecutorService;
 
-/**
- * Asynchronous thread for running an evolutionary algorithm.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- */
-public final class AsynchronousEvaThread implements Runnable {
-    private SolutionCallback callback;
-    private Eva algorithm;
-    private String threadName;
-    private int runs;
-    private Thread tr;
-    /**
-     * Constructor.
-     * @param algorithm The evolutionary algorithm to be run.
-     * @param callback The callback logic (what to do with the found solution?).
-     * @param name The name of this runnable (it will be suffixed with _nrOfRuns).
-     */
-    public AsynchronousEvaThread(Eva algorithm, SolutionCallback callback, String name) {
-        this.algorithm = algorithm;
-        this.callback = callback;
-        this.threadName = name;
+class StopwatchSolutionCallback implements SolutionCallback {
+
+    private Solution found;
+    private ExecutorService executorService;
+
+    public StopwatchSolutionCallback(ExecutorService executorService) {
+        this.executorService = executorService;
     }
 
-    public void run() {
-        callback.execute(algorithm.calculate());
+    public synchronized void execute(Solution result) {
+        this.found = result;
+        this.executorService.shutdownNow();
     }
 
-    /**
-     * Start the execution of a new thread.
-     */
-    public void start() {
-        runs++;
-        tr = new Thread(this, threadName + "_" + runs);
-        tr.start();
-
-    }
-
-    public void stop() {
-        tr.interrupt();
+    public synchronized Solution getFound() {
+        return this.found;
     }
 }

@@ -26,47 +26,44 @@
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.amihaiemil.eva.concurrency;
+package com.amihaiemil.eva;
 
-import com.amihaiemil.eva.Eva;
 
 /**
- * Asynchronous thread for running an evolutionary algorithm.
+ * A stopwatch that runs on a separate thread.
  * @author Mihai Andronache (amihaiemil@gmail.com)
+ *
  */
-public final class AsynchronousEvaThread implements Runnable {
-    private SolutionCallback callback;
-    private Eva algorithm;
-    private String threadName;
-    private int runs;
-    private Thread tr;
-    /**
-     * Constructor.
-     * @param algorithm The evolutionary algorithm to be run.
-     * @param callback The callback logic (what to do with the found solution?).
-     * @param name The name of this runnable (it will be suffixed with _nrOfRuns).
-     */
-    public AsynchronousEvaThread(Eva algorithm, SolutionCallback callback, String name) {
-        this.algorithm = algorithm;
-        this.callback = callback;
-        this.threadName = name;
-    }
-
-    public void run() {
-        callback.execute(algorithm.calculate());
-    }
-
-    /**
+class Stopwatch implements Runnable {
+	private Thread watch;
+	private int millis;
+	
+	public Stopwatch(int miliseconds) {
+		this.millis = miliseconds;
+		this.watch = new Thread(this);
+	}
+	
+	/**
      * Start the execution of a new thread.
      */
     public void start() {
-        runs++;
-        tr = new Thread(this, threadName + "_" + runs);
-        tr.start();
-
+    	watch.start();
     }
 
-    public void stop() {
-        tr.interrupt();
-    }
+	public void run() {
+		try {
+			Thread.sleep(this.millis);
+			String message = String.format(
+				"Timeout exception because the algorithm did not finish execution in %d miliseconds",
+				this.millis
+			);
+			throw new StopwatchException(message);
+		} catch (InterruptedException e) {
+			throw new StopwatchException("Stop watch interrupted!", e);
+		}
+	}
+	
+	public void stop() throws StopwatchException {
+		watch.interrupt();
+	}
 }

@@ -26,47 +26,52 @@
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.amihaiemil.eva.concurrency;
+package com.amihaiemil.eva;
 
-import com.amihaiemil.eva.Eva;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Asynchronous thread for running an evolutionary algorithm.
+ * Unit tests for {@link TimedEvolutionaryAlgorithm}
  * @author Mihai Andronache (amihaiemil@gmail.com)
+ *
  */
-public final class AsynchronousEvaThread implements Runnable {
-    private SolutionCallback callback;
-    private Eva algorithm;
-    private String threadName;
-    private int runs;
-    private Thread tr;
-    /**
-     * Constructor.
-     * @param algorithm The evolutionary algorithm to be run.
-     * @param callback The callback logic (what to do with the found solution?).
-     * @param name The name of this runnable (it will be suffixed with _nrOfRuns).
-     */
-    public AsynchronousEvaThread(Eva algorithm, SolutionCallback callback, String name) {
-        this.algorithm = algorithm;
-        this.callback = callback;
-        this.threadName = name;
-    }
+public class TimedEvolutionaryAlgorithmTestCase {
 
-    public void run() {
-        callback.execute(algorithm.calculate());
-    }
-
-    /**
-     * Start the execution of a new thread.
-     */
-    public void start() {
-        runs++;
-        tr = new Thread(this, threadName + "_" + runs);
-        tr.start();
-
-    }
-
-    public void stop() {
-        tr.interrupt();
-    }
+	/**
+	 * TimedEvolutionaryAlgorithm throws {@link StopwatchException} because the time runs out.
+	 * @throws Exception
+	 */
+	@Test(expected = StopwatchException.class)
+	public void timeRunsOut() throws Exception {
+		Eva algorithm = Mockito.mock(Eva.class);
+		Mockito.when(algorithm.calculate()).then(new Answer<Object>() {
+			public Object answer(InvocationOnMock invocation) throws Throwable {
+				Thread.sleep(500);
+				return Mockito.mock(Solution.class);
+			}
+		});
+		new TimedEvolutionaryAlgorithm(algorithm, 250).calculate();
+	}
+	
+	/**
+	 * TimedEvolutionaryAlgorithm can return a solution before the time runs out.
+	 * @throws Exception
+	 */
+	@Test
+	public void findsSolutionBeforeTimeout() throws Exception {
+		Eva algorithm = Mockito.mock(Eva.class);
+		Mockito.when(algorithm.calculate()).then(new Answer<Object>() {
+			public Object answer(InvocationOnMock invocation) throws Throwable {
+				Thread.sleep(250);
+				return Mockito.mock(Solution.class);
+			}
+		});
+		Solution sol = new TimedEvolutionaryAlgorithm(algorithm, 500).calculate();
+		assertTrue("Found solution is null!", sol != null);
+	}
+	
 }
