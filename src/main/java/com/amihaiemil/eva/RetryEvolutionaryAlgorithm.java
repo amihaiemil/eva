@@ -27,11 +27,13 @@
  */
 package com.amihaiemil.eva;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Reruns the algorithm if the specified conditions aren't met (SimpleEvolutionaryAlgorithm can still
- * find a solution that doesn't meet the conditions). It is advisable to use this class together with
- * {@link TimedEvolutionaryAlgorithm} since it might happen that a solution to meet the conditions cannot be found
- * for the given input. <br><br>
+ * find a solution that doesn't meet the conditions). 
+ * 
  * <b>Note: </b> It makes no sense to use this if you haven't specified any additional conditions using <b>Eva.with(Condition)</b>.
  * 
  * @author Mihai Andronache (amihaiemil@gmail.com)
@@ -39,21 +41,51 @@ package com.amihaiemil.eva;
  */
 public final class RetryEvolutionaryAlgorithm implements Eva {
 	private Eva algorithm;
+	private int totalRuns;
+    private static final Logger logger = LoggerFactory.getLogger(RetryEvolutionaryAlgorithm.class);
+
 	
 	public Solution calculate() {
 		Condition conditions = this.algorithm.conditions();
 		Solution sol;
 		sol = this.algorithm.calculate();
+		int runsPerformed = 1;
 		if(! (conditions instanceof NoConditions)) {
-			while(!conditions.passed(sol)) {
+			while(runsPerformed <= this.totalRuns && !conditions.passed(sol)) {
+				logger.warn("Found solution doesn't meet the specified conditions. Rerun #" + runsPerformed);
+
+				runsPerformed++;
 				sol = this.algorithm.calculate();
+				
 			}
 		}
+		
+		logger.info("Algorithm runs: " + runsPerformed);
+		if(conditions.passed(sol)) {
+			logger.info("Found solution meets the conditions!");
+		} else {
+			logger.warn("Found solution DOES NOT meet the conditions!");
+		}
+
 		return sol;
 	}
 	
+	/**
+	 * Constructor. Default number of reruns is 3.
+	 * @param alg The algoritm to run.
+	 */
 	public RetryEvolutionaryAlgorithm(Eva alg) {
+		this(alg, 3);
+	}
+	
+	/**
+	 * Constructor.
+	 * @param alg The algorithm to run.
+	 * @param runs Max number of reruns.
+	 */
+	public RetryEvolutionaryAlgorithm(Eva alg, int runs) {
 		this.algorithm = alg;
+		this.totalRuns = runs;
 	}
 	
 	public Eva with(FitnessEvaluator evaluator) {
