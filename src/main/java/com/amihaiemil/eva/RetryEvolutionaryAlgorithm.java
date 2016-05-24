@@ -53,7 +53,6 @@ public final class RetryEvolutionaryAlgorithm implements Eva {
 		if(! (conditions instanceof NoConditions)) {
 			while(runsPerformed <= this.totalRuns && !conditions.passed(sol)) {
 				logger.warn("Found solution doesn't meet the specified conditions. Rerun #" + runsPerformed);
-
 				runsPerformed++;
 				sol = this.algorithm.calculate();
 				
