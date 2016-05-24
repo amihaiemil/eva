@@ -25,19 +25,18 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.amihaiemil.eva;
 
 /**
- * By default, the algorithm runs until the number of iterations (population size x generations) runs out.
- * However, it can stop faster if any the specified conditions are met.
+ * By default, no additional conditions are specified.
  * @author Mihai Andronache (amihaiemil@gmail.com)
+ *
  */
-public interface Condition {
+public class NoConditions implements Condition {
 
-    /**
-     * Does the solution meet this condition or not?
-     * @param solution The tested solution.
-     * @return true if it is met or false otherwise.
-     */
-    boolean passed(Solution solution);
+	public boolean passed(Solution s) {
+        return false;
+    }
+
 }

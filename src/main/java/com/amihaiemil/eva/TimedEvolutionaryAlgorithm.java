@@ -39,7 +39,7 @@ import java.util.concurrent.Future;
  * This decorator times the execution, in order to avoid too long runs.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class TimedEvolutionaryAlgorithm implements Eva {
+public final class TimedEvolutionaryAlgorithm implements Eva {
 
 	private Eva algorithm;
 	private int miliseconds;
@@ -115,6 +115,10 @@ public class TimedEvolutionaryAlgorithm implements Eva {
 			this.algorithm.with(additionalStoppingConditions),
 			this.miliseconds
 		);
+	}
+	
+	public Condition conditions() {
+		return this.algorithm.conditions();
 	}
 
 	public Eva with(Selection selection) {
