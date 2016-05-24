@@ -53,11 +53,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
     /**
      * Additional stopping conditions.
      */
-    private Condition additionalCondition = new Condition() {
-        public boolean passed(Solution s) {
-            return false;
-        }
-    };
+    private Condition additionalCondition = new NoConditions();
     
     /**
      * The way an individual solution selected from its population.
@@ -138,6 +134,10 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
             this.populationSize, this.numberOfGenerations, this.crossoverProbability,
             this.mutationProbability, this.solutionsGenerator, this.solutionsEvaluator, additionalCondition,
             this.selection, this.bestSelection);
+    }
+    
+    public Condition conditions() {
+    	return this.additionalCondition;
     }
 
     public Eva with(Selection selection) {

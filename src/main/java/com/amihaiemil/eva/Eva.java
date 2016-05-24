@@ -61,6 +61,12 @@ public interface Eva {
     Eva with(Condition additionalStoppingConditions);
 
     /**
+     * Get the stopping condition(s) of this algorithm. 
+     * @return Stopping conditions.
+     */
+    Condition conditions();
+    
+    /**
      * Optionally, you can specify the way an individual solution is selected from the population
      * (i.e. when selecting the parents to create a new solution).
      * By default, the best out of 2 randomly chosen solution is selected.
