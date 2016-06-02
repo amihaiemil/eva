@@ -84,7 +84,7 @@
 				simply add this dependency into your <code>pom.xml</code>: </p>
 				<script src="https://gist.github.com/amihaiemil/28b92f24a807e101ccf0.js"></script>
 				<!--<pre><code>&lt;dependency&gt;<br/>&#9;&lt;groupId&gt;com.amihaiemil.ai&lt;/groupId&gt;<br/>&#9;&lt;artifactId&gt;eva&lt;/artifactId&gt;<br/>&#9;&lt;version&gt;1.0.0&lt;/version&gt;<br/>&lt;/dependency&gt;</code></pre>-->
-				<h3>Needed implementations: </h3>
+				<h3>Needed implementations</h3>
 				<p>Eva expects concrete implementations of a few abstractions that are used. Things that can't come out-of-the-box (they are specific to each problem)</p>
 				<ul class="dash">
 					<li>A <code>Representation</code> for a <code>Solution</code>. How does a solution to your problem look like?</li>
@@ -95,9 +95,21 @@
 					<li>How is a <code>Solution</code> created? The algorithm starts off by creating a number of solutions
 					to work with, so you need to provide a generator of solutions.</li>
 				</ul>
+				<h3>Overview</h3>
+				<p>In version 1.0.0 there is only 1 implementation of <code>Eva.java</code>, namely <code>SimpleEvolutionaryAlgorithm.java</code>. See <a  target="_blank" href="http://www.amihaiemil.com/projects/2016/04/20/project-eva.html">this blog post</a> for a usage example. You should
+				get a decent grip of it fast. You can also use <code>AsynchronousEvaThread.java</code> to run your algorithm on a sepparate thread.</p>
+				
+				<p>In version 1.1.0 there will be more implementations of <code>Eva.java</code> (actually they are decorators) among which: </p>
+				
+				<ul class="dash">
+					<li><code>RetryEvolutionaryAlgorithm</code> - reruns the algorithm the specified number of times (by default 3) until a solution which satisfies the condition(s) is found. Note that it makes no sense to use this class if
+					no conditions were specified using <code>Eva.with(Condition)</code></li>
+					<li><code>TimedEvolutionaryAlgorithm.java</code> - throws runtime exception <code>com.amihaiemil.eva.StopwatchException</code> if the algorithm did not finish execution in the specified number of miliseconds. This class uses 
+					<code>AsynchronousEvaThread.java</code> in its implementation.</li>
+				</ul>
 				<h3>Example implementations</h3>
 				<p>Look in the package <a title="eva examples" target="_blank" href="https://github.com/amihaiemil/eva/tree/master/src/main/java/com/amihaiemil/eva/util">com.amihaiemil.eva.util</a> to find useful implementations that can be used in solving the
-				backpack's problem. Also, taking a look in the unit tests will surely help you get a good grip of how to
+				backpack's problem. Also, taking a look in the unit tests will surely help you understand how to
 				use this library.</p>
 			</div>
 			<div id="releases" class="pageContent" style="display:none;">
