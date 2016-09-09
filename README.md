@@ -2,6 +2,7 @@
 # eva
 [![Build Status](https://travis-ci.org/amihaiemil/eva.svg?branch=master)](https://travis-ci.org/amihaiemil/eva)
 [![Coverage Status](https://coveralls.io/repos/github/amihaiemil/eva/badge.svg?branch=master)](https://coveralls.io/github/amihaiemil/eva?branch=master)
+
 A Java 6 OOP evolutionary algorithm framework.
 
 "Evolutionary algorithm" is a concept from the field of artifical intelligence.
