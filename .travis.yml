@@ -4,4 +4,4 @@ jdk:
   - openjdk7
 script:
   - set -e
-  - mvn clean install
+  - mvn clean install jacoco:report coveralls:report
