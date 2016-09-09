@@ -1,7 +1,7 @@
 <img src="http://eva.amihaiemil.com/images/icons_light/logo.png" align="left" height="100" width="100"/>
 # eva
 [![Build Status](https://travis-ci.org/amihaiemil/eva.svg?branch=master)](https://travis-ci.org/amihaiemil/eva)
-[![Coverage Status](https://coveralls.io/repos/github/amihaiemil/eva/badge.svg?branch=master)](https://coveralls.io/github/amihaiemil/eva?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/amihaiemil/eva/badge.svg?branch=master&service=github)](https://coveralls.io/github/amihaiemil/eva?branch=master)
 
 A Java 6 OOP evolutionary algorithm framework.
 
