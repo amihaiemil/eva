@@ -27,8 +27,6 @@
  */
 package com.amihaiemil.eva;
 
-import java.util.Random;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,13 +38,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class SimpleEvolutionaryAlgorithm implements Eva{
     private static final Logger logger = LoggerFactory.getLogger(SimpleEvolutionaryAlgorithm.class);
-    private static final Random random = new Random();
-
-    private int populationSize;
-    private int numberOfGenerations;
-    private double crossoverProbability = random.nextDouble();
-    private double mutationProbability = random.nextDouble();
-
+    
+    private EvaCounters cntrs;
     private SolutionsGenerator solutionsGenerator;
     private FitnessEvaluator solutionsEvaluator;
 
@@ -78,8 +71,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
      * @param generations The number of minimum iterations this algorithm does.
      */
     public SimpleEvolutionaryAlgorithm(int population, int generations) {
-        this.populationSize = population;
-        this.numberOfGenerations = generations;
+    	this.cntrs = new EvaCountersWithChecks(population, generations);
         logger.info("Initialized evolutionary algorithm with population size " + population +
                 " number of generations: " + generations);
     }
@@ -97,17 +89,13 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
      * @param bestSelection Final result (best solution) selection method.
      */
     private SimpleEvolutionaryAlgorithm(
-        int population, int generations,
-        double crossoverProbability, double mutationProbability,
+    	EvaCounters cntrs,
         SolutionsGenerator generator,
         FitnessEvaluator evaluator,
         Condition conditions,
         Selection selection,
         BestSelection bestSelection) {
-        this.populationSize = population;
-        this.numberOfGenerations = generations;
-        this.crossoverProbability = crossoverProbability;
-        this.mutationProbability = mutationProbability;
+    	this.cntrs = cntrs;
         this.solutionsGenerator = generator;
         this.solutionsEvaluator = evaluator;
         this.additionalCondition = conditions;
@@ -117,22 +105,19 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
 
     public Eva with(SolutionsGenerator generator) {
         return new SimpleEvolutionaryAlgorithm(
-            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
-            this.mutationProbability, generator, this.solutionsEvaluator, this.additionalCondition,
+            this.cntrs, generator, this.solutionsEvaluator, this.additionalCondition,
             this.selection, this.bestSelection);
     }
 
     public Eva with(FitnessEvaluator evaluator) {
         return new SimpleEvolutionaryAlgorithm(
-            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
-            this.mutationProbability, this.solutionsGenerator, evaluator, this.additionalCondition,
+            this.cntrs, this.solutionsGenerator, evaluator, this.additionalCondition,
             this.selection, this.bestSelection);
     }
 
     public Eva with(Condition additionalCondition) {
         return new SimpleEvolutionaryAlgorithm(
-            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
-            this.mutationProbability, this.solutionsGenerator, this.solutionsEvaluator, additionalCondition,
+            this.cntrs, this.solutionsGenerator, this.solutionsEvaluator, additionalCondition,
             this.selection, this.bestSelection);
     }
     
@@ -142,15 +127,13 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
 
     public Eva with(Selection selection) {
         return new SimpleEvolutionaryAlgorithm(
-            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
-            this.mutationProbability, this.solutionsGenerator, this.solutionsEvaluator,
+            this.cntrs, this.solutionsGenerator, this.solutionsEvaluator,
             this.additionalCondition, selection, this.bestSelection);
     }
 
     public Eva with(BestSelection bestSelection) {
         return new SimpleEvolutionaryAlgorithm(
-            this.populationSize, this.numberOfGenerations, this.crossoverProbability,
-            this.mutationProbability, this.solutionsGenerator, this.solutionsEvaluator,
+            this.cntrs, this.solutionsGenerator, this.solutionsEvaluator,
             this.additionalCondition, this.selection, bestSelection);
     }
     
@@ -172,19 +155,19 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
         }
         Population initialPopulation = new Population(
         		this.solutionsEvaluator, this.solutionsGenerator,
-        		this.selection, this.bestSelection, this.populationSize);
+        		this.selection, this.bestSelection, this.cntrs.population());
 
         initialPopulation.evaluateIndividuals();
         Population newPopulation;
-        for (int i = 0; i < numberOfGenerations; i++) {
+        for (int i = 0; i < this.cntrs.generations(); i++) {
             newPopulation = new Population(this.solutionsEvaluator, this.selection, this.bestSelection);
-            for (int j = 0; j < populationSize; j++) {
+            for (int j = 0; j < this.cntrs.population(); j++) {
             	
                 Solution child = initialPopulation.selectIndividual().crossover(
                 		             initialPopulation.selectIndividual(),
-                		             this.crossoverProbability
+                		             this.cntrs.crossover()
                 		         );
-                child.mutate(mutationProbability);
+                child.mutate(this.cntrs.mutation());
                 child.setFitness(solutionsEvaluator.calculateFitnessForSolution(child));
                 if(additionalCondition.passed(child)) {
                     logger.info("Evolutionary algorithm run finished successfully! The found solution meets the specified conditions.");
