@@ -46,34 +46,53 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
     /**
      * Additional stopping conditions.
      */
-    private Condition additionalCondition = new NoConditions();
+    private Condition additionalCondition = null;
     
     /**
      * The way an individual solution selected from its population.
      */
-    private Selection selection = new DefaultSelection();
+    private Selection selection = null;
     
     /**
      * The way the best individual is found in its population.
      */
-    private BestSelection bestSelection = new DefaultBestSelection();
+    private BestSelection bestSelection = null;
     
     /**
-     * Default constructor with default values for population size and mutation probability.
+     * Default constructor with default values for population size
+     * (1000) and number of generations (150).<br><br>
+     * <b>Important</b><br>
+     * You have to specify a SolutionsGenerator and a FitnessEvaluator using
+     * <b>with(...)</b> methods!
      */
     public SimpleEvolutionaryAlgorithm() {
         this(1000, 150);
     }
 
     /**
-     * Constructor with parameters for population size and number of generations.
+     * Constructor with parameters for population size and number of generations.<br><br>
+     * <b>Important</b><br>
+     * You have to specify a SolutionsGenerator and a FitnessEvaluator using
+     * <b>with(...)</b> methods!
      * @param population The number of initial solutions.
      * @param generations The number of minimum iterations this algorithm does.
      */
     public SimpleEvolutionaryAlgorithm(int population, int generations) {
-    	this.cntrs = new EvaCountersWithChecks(population, generations);
-        logger.info("Initialized evolutionary algorithm with population size " + population +
-                " number of generations: " + generations);
+        this(population, generations, null, null);
+    }
+    
+    /**
+     * Constructor.
+     * @param population The number of initial solutions.
+     * @param generations The number of minimum iterations this algorithm does.
+     */
+    public SimpleEvolutionaryAlgorithm(
+        int population, int generations, SolutionsGenerator sgen, FitnessEvaluator fev
+    ) {
+        this(
+            new EvaCountersWithChecks(population, generations), sgen, fev,
+            new NoConditions(), new DefaultSelection(), new DefaultBestSelection()
+        );
     }
 
     /**
@@ -89,13 +108,14 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
      * @param bestSelection Final result (best solution) selection method.
      */
     private SimpleEvolutionaryAlgorithm(
-    	EvaCounters cntrs,
+        EvaCounters cntrs,
         SolutionsGenerator generator,
         FitnessEvaluator evaluator,
         Condition conditions,
         Selection selection,
-        BestSelection bestSelection) {
-    	this.cntrs = cntrs;
+        BestSelection bestSelection
+    ) {
+        this.cntrs = cntrs;
         this.solutionsGenerator = generator;
         this.solutionsEvaluator = evaluator;
         this.additionalCondition = conditions;
@@ -122,7 +142,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
     }
     
     public Condition conditions() {
-    	return this.additionalCondition;
+        return this.additionalCondition;
     }
 
     public Eva with(Selection selection) {
@@ -154,19 +174,19 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
             throw new IllegalStateException("An evaluator of solutions must be specified!");
         }
         Population initialPopulation = new Population(
-        		this.solutionsEvaluator, this.solutionsGenerator,
-        		this.selection, this.bestSelection, this.cntrs.population());
+                this.solutionsEvaluator, this.solutionsGenerator,
+                this.selection, this.bestSelection, this.cntrs.population());
 
         initialPopulation.evaluateIndividuals();
         Population newPopulation;
         for (int i = 0; i < this.cntrs.generations(); i++) {
             newPopulation = new Population(this.solutionsEvaluator, this.selection, this.bestSelection);
             for (int j = 0; j < this.cntrs.population(); j++) {
-            	
+                
                 Solution child = initialPopulation.selectIndividual().crossover(
-                		             initialPopulation.selectIndividual(),
-                		             this.cntrs.crossover()
-                		         );
+                                     initialPopulation.selectIndividual(),
+                                     this.cntrs.crossover()
+                                 );
                 child.mutate(this.cntrs.mutation());
                 child.setFitness(solutionsEvaluator.calculateFitnessForSolution(child));
                 if(additionalCondition.passed(child)) {
