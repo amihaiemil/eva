@@ -37,8 +37,8 @@ echo $NEXT_VERSION
 sed -i "s/<version>${CURRENT_VERSION}<\/version><\!--rrv-sed-flag-->/<version>${tag}<\/version><\!--rrv-sed-flag-->/" pom.xml
 mvn clean deploy -Prelease --settings /home/r/settings.xml
 sed -i "s/<version>${tag}<\/version><\!--rrv-sed-flag-->/<version>${NEXT_VERSION}<\/version><\!--rrv-sed-flag-->/" pom.xml
-#sed -i "s/<version>.*<\/version>/<version>${tag}<\/version>/" README.md
-#sed -i "s/charles-.*-jar-with-dependencies\.tar\.gz/charles-${tag}-jar-with-dependencies.tar.gz/" README.md
+sed -i "s/<version>.*<\/version>/<version>${tag}<\/version>/" README.md
+#sed -i "s/eva-.*-jar-with-dependencies\.jar/eva-${tag}-jar-with-dependencies.jar/" README.md
 
 git commit -am "${NEXT_VERSION}"
 git checkout master

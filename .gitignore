@@ -5,3 +5,6 @@ target/
 /.settings/
 /bin/
 /.classpath
+*/settings.xml
+*/pubring.gpg
+*/secring.gpg
