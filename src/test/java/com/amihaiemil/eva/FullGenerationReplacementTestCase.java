@@ -25,27 +25,24 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.amihaiemil.eva;
 
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import org.mockito.Mockito;
+
 /**
- * By default, no additional conditions are specified.
+ * Unit tests for {@link FullGenerationReplacement}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
- *
+ * @version $Id$
+ * @since 1.2.0
  */
-public class NoConditions implements Condition {
+public final class FullGenerationReplacementTestCase {
 
-	/**
-	 * This always returns false, because the idea of a Condition
-	 * is <b>not</b> to run the algorithm until it is met (because this
-	 * most likely will cause an infinite loop or really really long run).
-	 * <br><br>
-	 * The idea of the condition is to <b>stop</b> the algorithm faster (not
-	 * let it perform all the iterations) if a satisfying solution was found.
-	 * 
-	 */
-	public boolean passed(Solution s) {
-        return false;
+	@Test
+	public void replacesGenerationEntirely() {
+    	Generation a = Mockito.mock(Generation.class);
+    	Generation b = Mockito.mock(Generation.class);
+    	assertTrue(new FullGenerationReplacement().replace(a, b) == b);
     }
-
 }

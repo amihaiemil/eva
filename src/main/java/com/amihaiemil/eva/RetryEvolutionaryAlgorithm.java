@@ -40,84 +40,90 @@ import org.slf4j.LoggerFactory;
  *
  */
 public final class RetryEvolutionaryAlgorithm implements Eva {
-	private Eva algorithm;
-	private int totalRuns;
+    private Eva algorithm;
+    private int totalRuns;
     private static final Logger logger = LoggerFactory.getLogger(RetryEvolutionaryAlgorithm.class);
 
-	
-	public Solution calculate() {
-		Condition conditions = this.algorithm.conditions();
-		Solution sol;
-		sol = this.algorithm.calculate();
-		int runsPerformed = 1;
-		if(! (conditions instanceof NoConditions)) {
-			while(runsPerformed <= this.totalRuns && !conditions.passed(sol)) {
-				logger.warn("Found solution doesn't meet the specified conditions. Rerun #" + runsPerformed);
-				runsPerformed++;
-				sol = this.algorithm.calculate();
-				
-			}
-		}
-		
-		logger.info("Algorithm runs: " + runsPerformed);
-		if(conditions.passed(sol)) {
-			logger.info("Found solution meets the conditions!");
-		} else {
-			logger.warn("Found solution DOES NOT meet the conditions!");
-		}
+    
+    public Solution calculate() {
+        Condition conditions = this.algorithm.conditions();
+        Solution sol;
+        sol = this.algorithm.calculate();
+        int runsPerformed = 1;
+        if(! (conditions instanceof NoConditions)) {
+            while(runsPerformed <= this.totalRuns && !conditions.passed(sol)) {
+                logger.warn("Found solution doesn't meet the specified conditions. Rerun #" + runsPerformed);
+                runsPerformed++;
+                sol = this.algorithm.calculate();
+                
+            }
+        }
+        
+        logger.info("Algorithm runs: " + runsPerformed);
+        if(conditions.passed(sol)) {
+            logger.info("Found solution meets the conditions!");
+        } else {
+            logger.warn("Found solution DOES NOT meet the conditions!");
+        }
 
-		return sol;
-	}
-	
-	/**
-	 * Constructor. Default number of reruns is 3.
-	 * @param alg The algoritm to run.
-	 */
-	public RetryEvolutionaryAlgorithm(Eva alg) {
-		this(alg, 3);
-	}
-	
-	/**
-	 * Constructor.
-	 * @param alg The algorithm to run.
-	 * @param runs Max number of reruns.
-	 */
-	public RetryEvolutionaryAlgorithm(Eva alg, int runs) {
-		this.algorithm = alg;
-		this.totalRuns = runs;
-	}
-	
-	public Eva with(FitnessEvaluator evaluator) {
-		return new RetryEvolutionaryAlgorithm(
-			this.algorithm.with(evaluator)
-		);
-	}
+        return sol;
+    }
+    
+    /**
+     * Constructor. Default number of reruns is 3.
+     * @param alg The algoritm to run.
+     */
+    public RetryEvolutionaryAlgorithm(Eva alg) {
+        this(alg, 3);
+    }
+    
+    /**
+     * Constructor.
+     * @param alg The algorithm to run.
+     * @param runs Max number of reruns.
+     */
+    public RetryEvolutionaryAlgorithm(Eva alg, int runs) {
+        this.algorithm = alg;
+        this.totalRuns = runs;
+    }
+    
+    public Eva with(FitnessEvaluator evaluator) {
+        return new RetryEvolutionaryAlgorithm(
+            this.algorithm.with(evaluator)
+        );
+    }
 
-	public Eva with(SolutionsGenerator generator) {
-		return new RetryEvolutionaryAlgorithm(
-			this.algorithm.with(generator)
-		);
-	}
+    public Eva with(SolutionsGenerator generator) {
+        return new RetryEvolutionaryAlgorithm(
+            this.algorithm.with(generator)
+        );
+    }
 
-	public Eva with(Condition additionalStoppingConditions) {
-		return new RetryEvolutionaryAlgorithm(
-			this.algorithm.with(additionalStoppingConditions)
-		);
-	}
-	
-	public Condition conditions() {
-		return this.algorithm.conditions();
-	}
+    public Eva with(Condition additionalStoppingConditions) {
+        return new RetryEvolutionaryAlgorithm(
+            this.algorithm.with(additionalStoppingConditions)
+        );
+    }
+    
+    public Eva with(GenerationReplacement replacement) {
+        return new RetryEvolutionaryAlgorithm(
+            this.algorithm.with(replacement)
+        );
+    }
+    
+    public Condition conditions() {
+        return this.algorithm.conditions();
+    }
 
-	public Eva with(Selection selection) {
-		return new RetryEvolutionaryAlgorithm(
-			this.algorithm.with(selection)
-		);
-	}
+    public Eva with(Selection selection) {
+        return new RetryEvolutionaryAlgorithm(
+            this.algorithm.with(selection)
+        );
+    }
 
-	public Eva with(BestSelection bestSelection) {
-		return new RetryEvolutionaryAlgorithm(
-			this.algorithm.with(bestSelection)
-		);
-	}
+    public Eva with(BestSelection bestSelection) {
+        return new RetryEvolutionaryAlgorithm(
+            this.algorithm.with(bestSelection)
+        );
+    }
 }

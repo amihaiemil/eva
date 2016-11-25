@@ -25,27 +25,23 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.amihaiemil.eva;
 
 /**
- * By default, no additional conditions are specified.
+ * A replacement algorithm for generations. At every iteration of the algorithm, the
+ * current generation of solution has to be replaced by a new one.
  * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 1.0.0
  *
  */
-public class NoConditions implements Condition {
+public abstract class GenerationReplacement {
 
-	/**
-	 * This always returns false, because the idea of a Condition
-	 * is <b>not</b> to run the algorithm until it is met (because this
-	 * most likely will cause an infinite loop or really really long run).
-	 * <br><br>
-	 * The idea of the condition is to <b>stop</b> the algorithm faster (not
-	 * let it perform all the iterations) if a satisfying solution was found.
-	 * 
-	 */
-	public boolean passed(Solution s) {
-        return false;
-    }
-
+    /**
+     * Replace the current generation somehow, taking into account the new one.
+     * @param current Current generation in this iteration.
+     * @param newPne New generation.
+     * @return Generation that the algorithm will work with in the next iteration.
+     */
+    public abstract Generation replace(Generation current, Generation newOne);
 }

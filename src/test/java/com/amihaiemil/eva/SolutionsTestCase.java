@@ -28,24 +28,24 @@
 
 package com.amihaiemil.eva;
 
-import com.amihaiemil.eva.util.BinaryArraySolution;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.util.List;
-
-import static org.junit.Assert.assertTrue;
+import com.amihaiemil.eva.util.BinaryArraySolution;
 
 /**
- * Test cases for {@link Population}
+ * Test cases for {@link Solutions}
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-public class PopulationTestCase {
+public class SolutionsTestCase {
     /**
      * Population under test.
      */
-    private Population popUt;
+    private Solutions popUt;
 
     @Before
     public void setup() {
@@ -62,7 +62,7 @@ public class PopulationTestCase {
         Mockito.when(selection.select(Mockito.anyCollectionOf(Solution.class))).thenReturn(solution);
         Mockito.when(bestSelection.selectBest(Mockito.anyCollectionOf(Solution.class))).thenReturn(solution);
 
-        popUt = new Population(evaluator, generator, selection, bestSelection, 5);
+        popUt = new Solutions(evaluator, generator, selection, bestSelection, 5);
     }
 
     /**
@@ -70,7 +70,7 @@ public class PopulationTestCase {
      */
     @Test
     public void getsSize() {
-        assertTrue(popUt.getSize() == 5);
+        assertTrue(popUt.size() == 5);
     }
 
     /**
@@ -78,9 +78,20 @@ public class PopulationTestCase {
      */
     @Test
     public void addIndividual() {
-        int initialSize = popUt.getSize();
+        int initialSize = popUt.size();
         popUt.addIndividual(Mockito.mock(Solution.class));
-        assertTrue(popUt.getSize() == initialSize + 1);
+        assertTrue(popUt.size() == initialSize + 1);
+    }
+
+    /**
+     * An individual cen be removed from the population.
+     */
+    @Test
+    public void removeIndividual() {
+        int initialSize = popUt.size();
+        Solution ind = popUt.selectIndividual();
+        popUt.removeIndividual(ind);
+        assertTrue(popUt.size() == initialSize - 1);
     }
 
     /**
@@ -113,13 +124,13 @@ public class PopulationTestCase {
      */
     @Test
     public void evaluatesIndividuals() {
-        List<Solution> individuals = popUt.getIndividuals();
-        for(int i=0;i<individuals.size();i++) {
-            assertTrue(individuals.get(i).getFitness() == null);
+        Collection<Solution> individuals = popUt.getIndividuals();
+        for(Solution ind : individuals) {
+            assertTrue(ind.getFitness() == null);
         }
         popUt.evaluateIndividuals();
-        for(int i=0;i<individuals.size();i++) {
-            assertTrue(individuals.get(i).getFitness() != null);
+        for(Solution ind : individuals) {
+            assertTrue(ind.getFitness() != null);
         }
     }
 }
