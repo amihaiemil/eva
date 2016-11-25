@@ -25,27 +25,60 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.amihaiemil.eva;
 
+import java.util.Collection;
+
 /**
- * By default, no additional conditions are specified.
+ * A generation of solutions. Effectively, these are
+ * the solutions the algorithm works with in an iteration.
  * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 1.2.0
  *
  */
-public class NoConditions implements Condition {
+public interface Generation {
 
-	/**
-	 * This always returns false, because the idea of a Condition
-	 * is <b>not</b> to run the algorithm until it is met (because this
-	 * most likely will cause an infinite loop or really really long run).
-	 * <br><br>
-	 * The idea of the condition is to <b>stop</b> the algorithm faster (not
-	 * let it perform all the iterations) if a satisfying solution was found.
-	 * 
-	 */
-	public boolean passed(Solution s) {
-        return false;
-    }
+    /**
+     * Get the list of individuals from the population.
+     * @return A list of solutions.
+     */
+    Collection<Solution> getIndividuals();
+
+    /**
+     * An individual (any individual) is selected from the population.
+     * @return The selected individual.
+     */
+    Solution selectIndividual();
+
+    /**
+     * Gets the best individual in this population.
+     * @return The best individual based on fitness.
+     */
+    Solution bestIndividual();
+
+    /**
+     * Add a solution to this population.
+     * @param individual Solution to be added.
+     */
+    void addIndividual(Solution individual);
+
+    /**
+     * Remove a solution to this population.
+     * @param individual Solution to be added.
+     */
+    void removeIndividual(Solution individual);
+
+    /**
+     * The size of this generation (population size).
+     * @return int
+     */
+    int size();
+
+    /**
+     * Evaluate the solutions in this generation
+     * (assign a Fitness to every Solution).
+     */
+    void evaluateIndividuals();
 
 }

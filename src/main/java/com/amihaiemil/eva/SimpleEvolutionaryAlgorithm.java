@@ -44,9 +44,15 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
     private FitnessEvaluator solutionsEvaluator;
 
     /**
-     * Additional stopping conditions.
+     * Stopping condition. The algorithm stops when a solution that
+     * satisfies this is found.
      */
-    private Condition additionalCondition = null;
+    private Condition stoppingCondition = null;
+
+    /**
+     * How should the current generation be replaced by the next one?
+     */
+    private GenerationReplacement replacement = null;
     
     /**
      * The way an individual solution selected from its population.
@@ -80,7 +86,7 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
     public SimpleEvolutionaryAlgorithm(int population, int generations) {
         this(population, generations, null, null);
     }
-    
+
     /**
      * Constructor.
      * @param population The number of initial solutions.
@@ -91,7 +97,8 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
     ) {
         this(
             new EvaCountersWithChecks(population, generations), sgen, fev,
-            new NoConditions(), new DefaultSelection(), new DefaultBestSelection()
+            new NoConditions(), new FullGenerationReplacement(),
+            new DefaultSelection(), new DefaultBestSelection()
         );
     }
 
@@ -112,51 +119,58 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
         SolutionsGenerator generator,
         FitnessEvaluator evaluator,
         Condition conditions,
+        GenerationReplacement replacement,
         Selection selection,
         BestSelection bestSelection
     ) {
         this.cntrs = cntrs;
         this.solutionsGenerator = generator;
         this.solutionsEvaluator = evaluator;
-        this.additionalCondition = conditions;
+        this.stoppingCondition = conditions;
         this.selection = selection;
         this.bestSelection = bestSelection;
     }
 
     public Eva with(SolutionsGenerator generator) {
         return new SimpleEvolutionaryAlgorithm(
-            this.cntrs, generator, this.solutionsEvaluator, this.additionalCondition,
-            this.selection, this.bestSelection);
+            this.cntrs, generator, this.solutionsEvaluator, this.stoppingCondition,
+            this.replacement, this.selection, this.bestSelection);
     }
 
     public Eva with(FitnessEvaluator evaluator) {
         return new SimpleEvolutionaryAlgorithm(
-            this.cntrs, this.solutionsGenerator, evaluator, this.additionalCondition,
-            this.selection, this.bestSelection);
+            this.cntrs, this.solutionsGenerator, evaluator, this.stoppingCondition,
+            this.replacement, this.selection, this.bestSelection);
     }
 
-    public Eva with(Condition additionalCondition) {
+    public Eva with(Condition stoppingCondition) {
         return new SimpleEvolutionaryAlgorithm(
-            this.cntrs, this.solutionsGenerator, this.solutionsEvaluator, additionalCondition,
-            this.selection, this.bestSelection);
+            this.cntrs, this.solutionsGenerator, this.solutionsEvaluator, stoppingCondition,
+            this.replacement, this.selection, this.bestSelection);
+    }
+    
+    public Eva with(GenerationReplacement replacement) {
+        return new SimpleEvolutionaryAlgorithm(
+            this.cntrs, this.solutionsGenerator, this.solutionsEvaluator, this.stoppingCondition,
+            replacement, this.selection, this.bestSelection);
     }
     
     public Condition conditions() {
-        return this.additionalCondition;
+        return this.stoppingCondition;
     }
 
     public Eva with(Selection selection) {
         return new SimpleEvolutionaryAlgorithm(
             this.cntrs, this.solutionsGenerator, this.solutionsEvaluator,
-            this.additionalCondition, selection, this.bestSelection);
+            this.stoppingCondition, this.replacement, selection, this.bestSelection);
     }
 
     public Eva with(BestSelection bestSelection) {
         return new SimpleEvolutionaryAlgorithm(
             this.cntrs, this.solutionsGenerator, this.solutionsEvaluator,
-            this.additionalCondition, this.selection, bestSelection);
+            this.stoppingCondition, this.replacement, this.selection, bestSelection);
     }
-    
+
     /**
      * Calculates the solution. Does <b>numberOfGenerations</b> x <b>populationSize</b>
      * iterations or less, if the stopping conditions are met.
@@ -173,32 +187,33 @@ public final class SimpleEvolutionaryAlgorithm implements Eva{
             logger.error("No fitness evaluator was specified!");
             throw new IllegalStateException("An evaluator of solutions must be specified!");
         }
-        Population initialPopulation = new Population(
-                this.solutionsEvaluator, this.solutionsGenerator,
-                this.selection, this.bestSelection, this.cntrs.population());
-
-        initialPopulation.evaluateIndividuals();
-        Population newPopulation;
+        Generation current = new Solutions(
+            this.solutionsEvaluator, this.solutionsGenerator,
+            this.selection, this.bestSelection, this.cntrs.population()
+        );
+        current.evaluateIndividuals();
+        Generation newGeneration;
         for (int i = 0; i < this.cntrs.generations(); i++) {
-            newPopulation = new Population(this.solutionsEvaluator, this.selection, this.bestSelection);
+            newGeneration = new Solutions(this.solutionsEvaluator, this.selection, this.bestSelection);
             for (int j = 0; j < this.cntrs.population(); j++) {
                 
-                Solution child = initialPopulation.selectIndividual().crossover(
-                                     initialPopulation.selectIndividual(),
+                Solution child = current.selectIndividual().crossover(
+                                     current.selectIndividual(),
                                      this.cntrs.crossover()
                                  );
                 child.mutate(this.cntrs.mutation());
                 child.setFitness(solutionsEvaluator.calculateFitnessForSolution(child));
-                if(additionalCondition.passed(child)) {
+                if(this.stoppingCondition.passed(child)) {
                     logger.info("Evolutionary algorithm run finished successfully! The found solution meets the specified conditions.");
                     return child;
                 }
-                newPopulation.addIndividual(child);
+                newGeneration.addIndividual(child);
             }
-            initialPopulation = newPopulation;
+            current = this.replacement.replace(current, newGeneration);
         }
         logger.info("Evolutionary algorithm run finished successfully!");
-        return initialPopulation.bestIndividual();
+        logger.warn("Either no stopping conditions were specified, or the found solution does not meet them!");
+        return current.bestIndividual();
     }
 
 }

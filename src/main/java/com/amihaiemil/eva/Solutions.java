@@ -27,18 +27,20 @@
  */
 package com.amihaiemil.eva;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A population of possible solutions.
+ * A generation of possible solutions.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
-final class Population {
+final class Solutions implements Generation {
     private List<Solution> individuals;
     private FitnessEvaluator evaluator;
     private Selection selection;
     private BestSelection bestSelection;
+
     /**
      * Create a population of individuals, with a given size.
      * @param evaluator The fitness evaluator.
@@ -46,14 +48,14 @@ final class Population {
      * @param selection The individual Selection algorithm.
      * @param size The size of the population.
      */
-    Population(
+    Solutions(
     	FitnessEvaluator evaluator,
     	SolutionsGenerator generator,
     	Selection selection,
     	BestSelection bestSelection,
     	int size
     ) {
-        this.individuals = new ArrayList<Solution>();
+        this.individuals = new LinkedList<Solution>();
         for(int i=0;i<size;i++) {
             individuals.add(generator.generateRandomSolution());
         }
@@ -68,7 +70,7 @@ final class Population {
      * @param selection The individual Selection algorithm.
      * @param bestSelection Selection of the best algorithm.
      */
-    Population(
+    Solutions(
     	FitnessEvaluator evaluator,
     	Selection selection,
     	BestSelection bestSelection
@@ -76,43 +78,31 @@ final class Population {
         this(evaluator, null, selection, bestSelection, 0);
     }
 
-    /**
-     * Get the list of individuals from this population.
-     * @return A list of individuals.
-     */
-    List<Solution> getIndividuals() {
+    public Collection<Solution> getIndividuals() {
         return this.individuals;
     }
 
-    /**
-     * An individual is selected from the population based on chance.
-     * @return The selected individual.
-     */
-    Solution selectIndividual() {
+    public Solution selectIndividual() {
     	return this.selection.select(this.individuals);
     }
 
-    /**
-     * Gets the best indivitual in this population.
-     * @return The best individual based on fitness.
-     */
-    Solution bestIndividual() {
+    public Solution bestIndividual() {
         return this.bestSelection.selectBest(this.individuals);
     }
 
-    /**
-     * Add a solution to this population.
-     * @param individual Solution to be added.
-     */
-    void addIndividual(Solution individual) {
+    public void addIndividual(Solution individual) {
         this.individuals.add(individual);
     }
 
-    int getSize() {
+    public void removeIndividual(Solution individual) {
+        this.individuals.remove(individual);
+    }
+
+    public int size() {
         return this.individuals.size();
     }
 
-    void evaluateIndividuals() {
+    public void evaluateIndividuals() {
     	for(int i=0;i<individuals.size();i++) {
     		individuals.get(i).setFitness(evaluator.calculateFitnessForSolution(individuals.get(i)));
             if(individuals.get(i).getFitness() == null) {

@@ -32,6 +32,7 @@ package com.amihaiemil.eva;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  */
 public interface Eva {
+
     /**
      * Run the algorithm, calculate the solution.
      * @return The found solution.
@@ -53,12 +54,30 @@ public interface Eva {
     Eva with(SolutionsGenerator generator);
 
     /**
-     * Optionally, you can specify additional stopping conditions that the found solution has
-     * to meet.
-     * @param additionalStoppingConditions The added condition(s).
+     * Optionally, you can specify stopping conditions so the algorithm stops faster, if it finds
+     * a matching solution. <b>Ideally, the found solution should always meet this Condition, but this is
+     * not guaranteed!</b> <br><br>
+     * 
+     * The idea of a Condition is to make the algorithm faster and minimize the occasions when a
+     * good solution is missed.<br><br>
+     * 
+     * By having a good and reasonable Condition, the algorithm can find a satisfactory solution very quickly!
+     * @param stoppingConditions The added condition(s).
      * @return A new, copied instance, of this algorithm, with the specified Condition.
      */
-    Eva with(Condition additionalStoppingConditions);
+    Eva with(Condition stoppingConditions);
+
+    /**
+     * Optionally, you can specify how the current generation of solutions is replaced by
+     * the new one for the next iteration. By default, the current generation is <b>entirely</b>
+     * replaced by the new one.<br><br>
+     * 
+     * It is advisable to specify a replacement that best fits your needs. Just extend abstract
+     * class {@link GenerationReplacement} and feed it to the algorithm using this method.
+     * @param replacement General Replacement
+     * @returnA new, copied instance, of this algorithm, with the specified GenerationReplacement.
+     */
+    Eva with(GenerationReplacement replacement);
 
     /**
      * Get the stopping condition(s) of this algorithm. 

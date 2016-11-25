@@ -25,27 +25,22 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.amihaiemil.eva;
 
 /**
- * By default, no additional conditions are specified.
+ * 
+ * Default generation replacement algorithm. 
+ * Replaces the current generation entirely with the new one.
  * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id$
+ * @since 1.2.0
  *
  */
-public class NoConditions implements Condition {
+class FullGenerationReplacement extends GenerationReplacement {
 
-	/**
-	 * This always returns false, because the idea of a Condition
-	 * is <b>not</b> to run the algorithm until it is met (because this
-	 * most likely will cause an infinite loop or really really long run).
-	 * <br><br>
-	 * The idea of the condition is to <b>stop</b> the algorithm faster (not
-	 * let it perform all the iterations) if a satisfying solution was found.
-	 * 
-	 */
-	public boolean passed(Solution s) {
-        return false;
-    }
+	@Override
+	public Generation replace(Generation current, Generation newOne) {
+	    return newOne;
+	}
 
 }

@@ -41,35 +41,35 @@ import java.util.concurrent.Future;
  */
 public final class TimedEvolutionaryAlgorithm implements Eva {
 
-	private Eva algorithm;
-	private int miliseconds;
-	
-	/**
-	 * Default constructor.
-	 * A {@link SimpleEvolutionaryAlgorithm} is used.
-	 * @param miliseconds For how many miliseconds (1/1000 * 1 second ) should this algorithm run, at most?
-	 */
-	public TimedEvolutionaryAlgorithm(int miliseconds) {
-		this(new SimpleEvolutionaryAlgorithm(), miliseconds);
-	}
-	
-	/**
-	 * Constructor.
-	 * @param alg The timed algorithm.
-	 * @param miliseconds For how many miliseconds (1/1000 * 1 second ) should this algorithm run, at most?
-	 */
-	public TimedEvolutionaryAlgorithm(Eva alg, int miliseconds) {
-		this.algorithm = alg;
-		this.miliseconds = miliseconds;
-	}
-	
-	/**
-	 * @throws IllegalStateException if the solutions generator or the solutions evaluator is missing.
-	 * @throws StopwatchException if the specified miliseconds passed and the algorithm didn't finish.
-	 */
-	public Solution calculate() {
+    private Eva algorithm;
+    private int miliseconds;
+    
+    /**
+     * Default constructor.
+     * A {@link SimpleEvolutionaryAlgorithm} is used.
+     * @param miliseconds For how many miliseconds (1/1000 * 1 second ) should this algorithm run, at most?
+     */
+    public TimedEvolutionaryAlgorithm(int miliseconds) {
+        this(new SimpleEvolutionaryAlgorithm(), miliseconds);
+    }
+    
+    /**
+     * Constructor.
+     * @param alg The timed algorithm.
+     * @param miliseconds For how many miliseconds (1/1000 * 1 second ) should this algorithm run, at most?
+     */
+    public TimedEvolutionaryAlgorithm(Eva alg, int miliseconds) {
+        this.algorithm = alg;
+        this.miliseconds = miliseconds;
+    }
+    
+    /**
+     * @throws IllegalStateException if the solutions generator or the solutions evaluator is missing.
+     * @throws StopwatchException if the specified miliseconds passed and the algorithm didn't finish.
+     */
+    public Solution calculate() {
         String algorithmName = this.algorithm.getClass().getName();
-		Stopwatch timer = new Stopwatch(this.miliseconds);
+        Stopwatch timer = new Stopwatch(this.miliseconds);
         ExecutorService timerExecutorService = Executors.newSingleThreadExecutor();
         StopwatchSolutionCallback callback = new StopwatchSolutionCallback(timerExecutorService);
         AsynchronousEvaThread asyncEva = new AsynchronousEvaThread(
@@ -94,45 +94,52 @@ public final class TimedEvolutionaryAlgorithm implements Eva {
             }
         }
         return callback.getFound();
-	}
+    }
 
-	public Eva with(FitnessEvaluator evaluator) {
-		return new TimedEvolutionaryAlgorithm(
-			this.algorithm.with(evaluator),
-			this.miliseconds
-		);
-	}
+    public Eva with(FitnessEvaluator evaluator) {
+        return new TimedEvolutionaryAlgorithm(
+            this.algorithm.with(evaluator),
+            this.miliseconds
+        );
+    }
 
-	public Eva with(SolutionsGenerator generator) {
-		return new TimedEvolutionaryAlgorithm(
-			this.algorithm.with(generator),
-			this.miliseconds
-		);
-	}
+    public Eva with(SolutionsGenerator generator) {
+        return new TimedEvolutionaryAlgorithm(
+            this.algorithm.with(generator),
+            this.miliseconds
+        );
+    }
 
-	public Eva with(Condition additionalStoppingConditions) {
-		return new TimedEvolutionaryAlgorithm(
-			this.algorithm.with(additionalStoppingConditions),
-			this.miliseconds
-		);
-	}
-	
-	public Condition conditions() {
-		return this.algorithm.conditions();
-	}
+    public Eva with(Condition additionalStoppingConditions) {
+        return new TimedEvolutionaryAlgorithm(
+            this.algorithm.with(additionalStoppingConditions),
+            this.miliseconds
+        );
+    }
+    
+    public Eva with(GenerationReplacement replacement) {
+        return new TimedEvolutionaryAlgorithm(
+            this.algorithm.with(replacement),
+            this.miliseconds
+        );
+    }
+    
+    public Condition conditions() {
+        return this.algorithm.conditions();
+    }
 
-	public Eva with(Selection selection) {
-		return new TimedEvolutionaryAlgorithm(
-			this.algorithm.with(selection),
-			this.miliseconds
-		);
-	}
+    public Eva with(Selection selection) {
+        return new TimedEvolutionaryAlgorithm(
+            this.algorithm.with(selection),
+            this.miliseconds
+        );
+    }
 
-	public Eva with(BestSelection bestSelection) {
-		return new TimedEvolutionaryAlgorithm(
-			this.algorithm.with(bestSelection),
-			this.miliseconds
-		);
-	}
+    public Eva with(BestSelection bestSelection) {
+        return new TimedEvolutionaryAlgorithm(
+            this.algorithm.with(bestSelection),
+            this.miliseconds
+        );
+    }
 
 }
