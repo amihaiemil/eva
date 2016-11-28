@@ -118,6 +118,27 @@
 						</executions>
 					</plugin>
 					<plugin>
+		                            <groupId>org.apache.maven.plugins</groupId>
+			                    <artifactId>maven-assembly-plugin</artifactId>
+			                    <version>2.6</version>
+			                    <configuration>
+				                <finalName>eva-${project.version}</finalName>
+				                <descriptorRefs>
+				                    <descriptorRef>jar-with-dependencies</descriptorRef>
+				                </descriptorRefs>
+			                    </configuration>
+			                    <executions>
+			                        <execution>
+			                            <id>make-assembly</id>
+			                            <!-- bind to the packaging phase -->
+			                            <phase>package</phase>
+			                            <goals>
+			                                <goal>single</goal>
+			                            </goals>
+			                        </execution>
+	         	                    </executions>
+	                                </plugin>
+					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
 						<version>1.6.7</version>
