@@ -14,7 +14,7 @@ To start using it, simply add the following to your ``pom.xml``:
 <dependency>
     <groupId>com.amihaiemil.ai</groupId>
     <artifactId>eva</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
