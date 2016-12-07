@@ -18,7 +18,7 @@ To start using it, simply add the following to your ``pom.xml``:
 </dependency>
 ```
 
-or download the "fat" jar from [here](https://oss.sonatype.org/service/local/repositories/releases/content/com/amihaiemil/ai/eva/1.1.0/eva-1.1.0-jar-with-dependencies.jar).
+or download the <a href="https://oss.sonatype.org/service/local/repositories/releases/content/com/amihaiemil/ai/eva/1.1.0/eva-1.1.0-jar-with-dependencies.jar">fat</a> jar.
 
 More at http://eva.amihaiemil.com
 
