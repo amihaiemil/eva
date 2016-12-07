@@ -34,14 +34,13 @@ echo $NEXT_VERSION
 #Right after the project's <version> tag there has to be the comment <!--rrv-sed-flag--> which simplifies the sed regex bellow. 
 #If the flag comment wouldn't be there, we'd have to write a more complicated regex to catch the artifactif from a row up.
 #This is because only a regex for version tag would change all the matching version tags in the file.
-#sed -i "s/<version>${CURRENT_VERSION}<\/version><\!--rrv-sed-flag-->/<version>${tag}<\/version><\!--rrv-sed-flag-->/" pom.xml
-#mvn clean deploy -Prelease --settings /home/r/settings.xml
-#sed -i "s/<version>${tag}<\/version><\!--rrv-sed-flag-->/<version>${NEXT_VERSION}<\/version><\!--rrv-sed-flag-->/" pom.xml
+sed -i "s/<version>${CURRENT_VERSION}<\/version><\!--rrv-sed-flag-->/<version>${tag}<\/version><\!--rrv-sed-flag-->/" pom.xml
+mvn clean deploy -Prelease --settings /home/r/settings.xml
+sed -i "s/<version>${tag}<\/version><\!--rrv-sed-flag-->/<version>${NEXT_VERSION}<\/version><\!--rrv-sed-flag-->/" pom.xml
 sed -i "s/<version>.*<\/version>/<version>${tag}<\/version>/" README.md
 sed -i "s/<a.*>fat<\/a>/<a href=\"https:\/\/oss\.sonatype\.org\/service\/local\/repositories\/releases\/content\/com\/amihaiemil\/ai\/eva\/${tag}\/eva-${tag}-jar-with-dependencies\.jar\">fat<\/a>/" README.md
 
 git commit -am "${NEXT_VERSION}"
 git checkout master
 git merge __rultor
-#git checkout __rultor
-exit 1
+git checkout __rultor
