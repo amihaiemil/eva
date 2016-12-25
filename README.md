@@ -24,4 +24,4 @@ More at http://eva.amihaiemil.com
 
 and 
 
-http://www.amihaiemil.com/projects/2016/04/20/project-eva.html
+http://www.amihaiemil.com/2016/04/20/project-eva.html
