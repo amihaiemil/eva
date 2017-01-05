@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    getLastUpdateTimestamp("https://api.github.com/repos/amihaiemil/eva/commits?sha=gh-pages");
+    getLastUpdateTimestamp("https://api.github.com/repos/decorators-squad/eva/commits?sha=gh-pages");
 });
 
 function getLastUpdateTimestamp(githubCommitsUri) {
