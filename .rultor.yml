@@ -10,6 +10,7 @@ merge:
 deploy:
   script:
    #- echo "Any deployment script here..."
+   - sudo mkdir ~/.ssh
    - sudo ssh-keyscan -H github.com >> ~/.ssh/known_hosts
    - cd ..
    - sudo git clone git@github.com:amihaiemil/amihaiemil.github.io.git
