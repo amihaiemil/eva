@@ -9,7 +9,12 @@ merge:
     mvn clean install
 deploy:
   script:
-   - echo "Any deployment script here..."
+   #- echo "Any deployment script here..."
+   - sudo ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+   - cd ..
+   - sudo git clone git@github.com:amihaiemil/amihaiemil.github.io.git
+   - cd amihaiemil.github.io
+   - pwd
 decrypt:
   settings.xml: "repo/rcfg/settings.xml.asc"
   pubring.gpg: "repo/rcfg/pubring.gpg.asc"
