@@ -1,9 +1,8 @@
 <img src="http://eva.amihaiemil.com/images/icons_light/logo.png" align="left" height="100" width="100"/>
 
-##eva
+## eva
 
 [![Build Status](https://travis-ci.org/decorators-squad/eva.svg?branch=master)](https://travis-ci.org/decorators-squad/eva)
-
 [![Coverage Status](https://coveralls.io/repos/github/decorators-squad/eva/badge.svg?branch=master&service=github)](https://coveralls.io/github/decorators-squad/eva?branch=master)
 
 A Java 6 OOP evolutionary algorithm framework.
