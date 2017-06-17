@@ -32,6 +32,13 @@ ul.dash > li:before {
     margin-right: 15%;
 }
 
+#charles-search {
+    float: right;
+    position: relative;
+    margin-right: 5%;
+    margin-top: 5%
+}
+
 #barbossa {
     height: auto; 
     width: 100%; 
