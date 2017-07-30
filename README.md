@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/decorators-squad/eva.svg?branch=master)](https://travis-ci.org/decorators-squad/eva)
 [![Coverage Status](https://coveralls.io/repos/github/decorators-squad/eva/badge.svg?branch=master&service=github)](https://coveralls.io/github/decorators-squad/eva?branch=master)
+[![We recommend IntelliJ IDEA](http://amihaiemil.github.io/images/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
 
 A Java 6 OOP evolutionary algorithm framework.
 
